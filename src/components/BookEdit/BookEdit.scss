@@ -1,0 +1,25 @@
+.item {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+}
+
+.img {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  float:left;
+  .imge {
+    height:200px;
+    width: 200px;
+  }
+}
+
+.detail {
+  float: left;
+  text-align: left;
+}
