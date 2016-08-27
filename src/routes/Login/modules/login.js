@@ -16,7 +16,7 @@ export function updateToken (value = '') {
 
 export function fetchToken (creds) {
   return (dispatch, getState) => {
-    return fetch('http://10.1.10.17:18080/books', {
+    return fetch(`${__API_URL__}/books`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

@@ -30,6 +30,11 @@ const config = {
   server_port : process.env.PORT || 3000,
 
   // ----------------------------------
+  // API Configuration
+  // ----------------------------------
+  api_url : process.env.API_URL || 'http://fanxiao.me:18080',
+
+  // ----------------------------------
   // Compiler Configuration
   // ----------------------------------
   compiler_css_modules     : true,
@@ -84,6 +89,7 @@ config.globals = {
   '__TEST__'     : config.env === 'test',
   '__DEBUG__'    : config.env === 'development' && !argv.no_debug,
   '__COVERAGE__' : !argv.watch && config.env === 'test',
+  '__API_URL__'  : JSON.stringify(config.api_url),
   '__BASENAME__' : JSON.stringify(process.env.BASENAME || '')
 }
 

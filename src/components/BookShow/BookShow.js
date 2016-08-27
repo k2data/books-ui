@@ -37,7 +37,7 @@ export class BookShow extends React.Component {
   }
 
   handleRemoveBook () {
-    fetch(`http://10.1.10.17:18080/books/${this.state.book.id}`, {
+    fetch(`${__API_URL__}/books/${this.state.book.id}`, {
       method: 'DELETE',
       headers: {
         Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.' +
@@ -50,7 +50,7 @@ export class BookShow extends React.Component {
   }
 
   handleRenewBook () {
-    fetch(`http://10.1.10.17:18080/books/${this.state.book.id}`, {
+    fetch(`${__API_URL__}/books/${this.state.book.id}`, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',

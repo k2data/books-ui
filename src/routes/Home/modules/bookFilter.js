@@ -34,7 +34,7 @@ export function receiveBooks (data) {
 export function fetchBooks (id) {
   return (dispatch, getState) => {
     dispatch(requestBooks())
-    return fetch('http://10.1.10.17:18080/books', {
+    return fetch(`${__API_URL__}/books`, {
       headers: {
         Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.' +
         'eyJleHAiOjE0NzE2Mzg1NjgsImlkIjoiYWRtaW4iLCJvcmlnX2lhdCI6MTQ3' +
@@ -49,7 +49,7 @@ export function fetchBooks (id) {
 
 export function removeBook (id) {
   return (dispatch, getState) => {
-    return fetch(`http://10.1.10.17:18080/books/${id}`, {
+    return fetch(`${__API_URL__}/books/${id}`, {
       method: 'DELETE',
       headers: {
         Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.' +

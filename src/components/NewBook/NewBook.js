@@ -29,7 +29,7 @@ export class NewBook extends React.Component {
   }
 
   handleSubmit (id) {
-    fetch('http://10.1.10.17:18080/books', {
+    fetch(`${__API_URL__}/books`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

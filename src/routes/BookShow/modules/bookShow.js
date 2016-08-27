@@ -25,7 +25,7 @@ export function receiveBook (data) {
 export function fetchBook (id) {
   return (dispatch, getState) => {
     dispatch(requestBook())
-    return fetch(`http://10.1.10.17:18080/books/${id}`, {
+    return fetch(`${__API_URL__}/books/${id}`, {
       headers: {
         Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.' +
         'eyJleHAiOjE0NzE0NjM4NDQsImlkIjoiYWRtaW4iLCJvcmlnX2lhdCI6MTQ3' +
