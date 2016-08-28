@@ -6,6 +6,7 @@ export const UPDATE_FILTER_TEXT = 'UPDATE_FILTER_TEXT'
 export const REQUEST_BOOKS = 'REQUEST_BOOKS'
 export const RECEIVE_BOOKS = 'RECEIVE_BOOKS'
 export const FETCH_BOOKS = 'FETCH_BOOKS'
+export const INVALID_BOOKS = 'INVALID_BOOKS'
 export const REMOVE_BOOK = 'REMOVE_BOOK'
 
 // ------------------------------------
@@ -31,6 +32,13 @@ export function receiveBooks (data) {
   }
 }
 
+export function invalidBooks (error) {
+  return {
+    type: INVALID_BOOKS,
+    error
+  }
+}
+
 export function fetchBooks (id) {
   return (dispatch, getState) => {
     dispatch(requestBooks())
@@ -42,7 +50,11 @@ export function fetchBooks (id) {
     })
       .then((res) => res.json())
       .then((json) => {
-        return dispatch(receiveBooks(json))
+        if (json.Error) {
+          return dispatch(invalidBooks(json))
+        } else {
+          return dispatch(receiveBooks(json))
+        }
       })
   }
 }
@@ -79,6 +91,13 @@ const ACTION_HANDLERS = {
     return Object.assign({}, state, {
       isFetching: false,
       books: action.data
+    })
+  },
+  [INVALID_BOOKS]: (state, action) => {
+    return Object.assign({}, state, {
+      isFetching: false,
+      error: action.error,
+      books: []
     })
   }
 }

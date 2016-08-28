@@ -36,8 +36,6 @@ export class HomeView extends React.Component {
   render () {
     const { bookFilter, updateFilterText, currentUser } = this.props
     const { books, text } = bookFilter
-    console.log(bookFilter)
-    console.log(this.props)
 
     const filteredBooks = books.filter((book) => {
       return JSON.stringify(book).indexOf(text) !== -1
