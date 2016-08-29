@@ -2,7 +2,6 @@ import fetch from 'isomorphic-fetch'
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const UPDATE_FILTER_TEXT = 'UPDATE_FILTER_TEXT'
 export const REQUEST_BOOKS = 'REQUEST_BOOKS'
 export const RECEIVE_BOOKS = 'RECEIVE_BOOKS'
 export const FETCH_BOOKS = 'FETCH_BOOKS'
@@ -12,12 +11,6 @@ export const REMOVE_BOOK = 'REMOVE_BOOK'
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function updateFilterText (value = '') {
-  return {
-    type: UPDATE_FILTER_TEXT,
-    payload: value
-  }
-}
 
 export function requestBooks () {
   return {
@@ -77,11 +70,6 @@ export function removeBook (id) {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [UPDATE_FILTER_TEXT]: (state, action) => {
-    return Object.assign({}, state, {
-      text: action.payload
-    })
-  },
   [REQUEST_BOOKS]: (state, action) => {
     return Object.assign({}, state, {
       isFetching: true
@@ -90,14 +78,14 @@ const ACTION_HANDLERS = {
   [RECEIVE_BOOKS]: (state, action) => {
     return Object.assign({}, state, {
       isFetching: false,
-      books: action.data
+      data: action.data
     })
   },
   [INVALID_BOOKS]: (state, action) => {
     return Object.assign({}, state, {
       isFetching: false,
       error: action.error,
-      books: []
+      data: []
     })
   }
 }
@@ -106,11 +94,10 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {
-  text: '',
-  books: []
+  data: []
 }
 
-export default function bookFilter (state = initialState, action) {
+export default function books (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

@@ -6,7 +6,8 @@ import SearchBar from 'components/SearchBar'
 import classes from './HomeView.scss'
 
 const Props = {
-  bookFilter: React.PropTypes.array,
+  books: React.PropTypes.object,
+  filter: React.PropTypes.object,
   fetchBooks: React.PropTypes.func,
   removeBook: React.PropTypes.func,
   updateFilterText: React.PropTypes.func,
@@ -35,51 +36,31 @@ export class HomeView extends React.Component {
   }
 
   render () {
-    const { bookFilter, updateFilterText, currentUser } = this.props
-    const { books, text } = bookFilter
+    const { filter, updateFilterText,
+      books: { data: books } } = this.props
 
-    const filteredBooks = books.filter((book) => {
-      return JSON.stringify(book).indexOf(text) !== -1
-    })
+    // TODO: move these to selector
 
-    const ownedBooks = filteredBooks.filter((book) => {
-      if (filterBorrowed === false) {
-        return true
-      }
-      return book.owner === currentUser.name
-    })
-
-    const borrowedBooks = ownedBooks.filter((book) => {
-      if (filterBorrowed === false) {
-        return true
-      }
-      return book.owner === currentUser.name
-    })
-
-    const filterOwned = () => {
-      this.setState({filterOwned: !this.state.filterOwned})
-    }
-
-    const filterBorrowed = () => {
-      this.setState({owned: !this.state.filterBorrowed})
-    }
-    const showDeleteButton = () => {
-      this.setState({showDeleteButton: !this.state.showDeleteButton})
-    }
+    // const filterOwned = () => {
+    //   this.setState({filterOwned: !this.state.filterOwned})
+    // }
+    //
+    // const filterBorrowed = () => {
+    //   this.setState({owned: !this.state.filterBorrowed})
+    // }
+    // const showDeleteButton = () => {
+    //   this.setState({showDeleteButton: !this.state.showDeleteButton})
+    // }
 
     return (
       <div>
         <Link to='/newBook'><button className={classes.button}>新建</button></Link>
         <Link to='/login'><button className={classes.button}>登录</button></Link>
-        <BooksFilter {...{bookFilter, updateFilterText}} />
-        <SearchBar className={classes.search} {...{updateFilterText, bookFilter}} />
-        <button className={classes.button} onClick={filterOwned} >我自己的书</button>
-        <button className={classes.button} onClick={filterBorrowed} >我借阅的书</button>
-        <button className={classes.button} onClick={showDeleteButton}>删除(显/隐)</button>
+        <BooksFilter {...{filter, updateFilterText}} />
         <br />
         <div>
             {
-              borrowedBooks.map((book, index) => {
+              books.map((book, index) => {
                 return (
                   <div key={index}>
                     {this.state.showDeleteButton
