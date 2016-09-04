@@ -7,7 +7,6 @@ export default (store) => ({
       const booksReducer = require('./modules/books').default
       const booksFilter = require('./modules/filter').default
 
-      console.log('inject: ', booksFilter)
       injectReducer(store, { key: 'books', reducer: booksReducer })
       injectReducer(store, { key: 'booksFilter', reducer: booksFilter })
       cb(null, Home)

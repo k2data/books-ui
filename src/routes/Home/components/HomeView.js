@@ -35,8 +35,7 @@ export class HomeView extends React.Component {
   }
 
   render () {
-    const { filter, updateFilterText,
-      books: { data: books } } = this.props
+    const { filter, updateFilterText, books } = this.props
 
     return (
       <div>
@@ -46,20 +45,20 @@ export class HomeView extends React.Component {
         <BooksFilter {...{filter, updateFilterText}} />
         <br />
         <div>
-            {
-              books.map((book, index) => {
-                return (
-                  <div key={index}>
-                    {this.state.showDeleteButton
-                      ? <button className={classes.button}
-                        onClick={this.handleRemoveBook(book.id)}>
-                      删除</button>
-                      : false
-                    }
-                    <BookList {...{book}} />
-                  </div>
-             )
-              })
+        {
+          books.map((book, index) => {
+            return (
+              <div key={index}>
+                {this.state.showDeleteButton
+                  ? <button className={classes.button}
+                    onClick={this.handleRemoveBook(book.id)}>
+                  删除</button>
+                  : false
+                }
+                <BookList {...{book}} />
+              </div>
+         )
+          })
         }
         </div>
       </div>

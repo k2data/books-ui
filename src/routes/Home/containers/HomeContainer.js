@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-// import { createSelector } from 'reselect'
+import { createSelector } from 'reselect'
 import { fetchBooks, removeBook } from '../modules/books'
 import { updateFilterText } from '../modules/filter'
 import HomeView from '../components/HomeView'
@@ -7,19 +7,18 @@ import HomeView from '../components/HomeView'
 /**
  * 通过rest接口过滤
  */
-
-// const getFilterText = (state) => state.booksFilter.text
-// const getBooks = (state) => state.books.data
+const getFilterText = (state) => state.booksFilter ? state.booksFilter.text : ''
+const getBooks = (state) => state.books ? state.books.data : []
 // const getUser = (state) => state.user
 
-// export const getTextFilteredBooks = createSelector(
-//   [ getFilterText, getBooks ],
-//   (filter, books) => {
-//     return books.filter((book) => {
-//       return JSON.stringify(book).indexOf(filter.text) !== -1
-//     })
-//   }
-// )
+const getTextFilteredBooks = createSelector(
+  [ getFilterText, getBooks ],
+  (filterText, books) => {
+    return books.filter((book) => {
+      return JSON.stringify(book).indexOf(filterText) !== -1
+    })
+  }
+)
 //
 // export const getOwnedBooks = createSelector(
 //   [ getUser, getBooks ],
@@ -46,7 +45,7 @@ const mapActionCreators = {
 }
 
 const mapStateToProps = (state) => ({
-  books: state.books,
+  books: getTextFilteredBooks(state),
   filter: state.booksFilter
 })
 
