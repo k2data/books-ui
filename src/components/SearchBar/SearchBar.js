@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Input } from 'antd'
 import classes from './SearchBar.scss'
 
 type Props = {
@@ -17,8 +18,8 @@ export default class SearchBar extends Component {
   }
   render () {
     return (
-      <div>
-        <input type='text' className={classes.searchBar} placeholder='Search'
+      <div className={classes.SearchBar}>
+        <Input type='text' placeholder='Search'
           onChange={this.handleChange} value={this.props.filter.text} />
       </div>
     )
