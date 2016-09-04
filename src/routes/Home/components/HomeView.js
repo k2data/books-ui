@@ -10,6 +10,7 @@ const Props = {
   fetchBooks: React.PropTypes.func,
   removeBook: React.PropTypes.func,
   updateFilterText: React.PropTypes.func,
+  filterActions: React.PropTypes.object,
   borrowed: React.PropTypes.boolean,
   owned: React.PropTypes.boolean,
   currentUser: React.PropTypes.object
@@ -42,7 +43,7 @@ export class HomeView extends React.Component {
         <div className={classes.rightToolbar}>
           <RightToolbarContainer />
         </div>
-        <BooksFilter {...{filter, updateFilterText}} />
+        <BooksFilter {...{filter, actions: this.props.filterActions, updateFilterText}} />
         <br />
         <div>
         {

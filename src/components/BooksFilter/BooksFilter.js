@@ -1,23 +1,53 @@
 import React from 'react'
-import { Button } from 'antd'
+import { Checkbox } from 'antd'
 import SearchBar from 'components/SearchBar'
 import classes from './BooksFilter.scss'
 
-export const BooksFilter = (props) => (
-  <div className={classes['BooksFilter']}>
-    <SearchBar {...{filter: props.filter, updateFilterText: props.updateFilterText}} />
-    <Button type='ghost' onClick={props.filterOwned}>我自己的书</Button>
-    <Button type='ghost' onClick={props.filterBorrowed}>我借阅的书</Button>
-    <Button type='ghost' onClick={props.showDeleteButton}>删除(显/隐)</Button>
-  </div>
-)
-
-BooksFilter.propTypes = {
+const Props = {
   filter: React.PropTypes.object,
+  actions: React.PropTypes.object,
   updateFilterText: React.PropTypes.func,
   filterOwned: React.PropTypes.func,
   filterBorrowed: React.PropTypes.func,
   showDeleteButton: React.PropTypes.func
+}
+
+export class BooksFilter extends React.Component {
+  props: Props
+
+  constructor (props) {
+    super(props)
+
+    this.handleOwnedChange = this.handleOwnedChange.bind(this)
+    this.handleBorrowedChange = this.handleBorrowedChange.bind(this)
+    this.handleShowDeleteBtnChange = this.handleShowDeleteBtnChange.bind(this)
+  }
+
+  handleOwnedChange (e) {
+    this.props.actions.filterOwned(e.target.checked)
+  }
+
+  handleBorrowedChange (e) {
+    this.props.actions.filterBorrowed(e.target.checked)
+  }
+
+  handleShowDeleteBtnChange (e) {
+    this.props.actions.showDeleteButton(e.target.checked)
+  }
+
+  render () {
+    const { filter, updateFilterText } = this.props
+    const { owned, borrowed, showDeleteBtn } = filter
+
+    return (
+      <div className={classes['BooksFilter']}>
+        <SearchBar {...{filter, updateFilterText}} />
+        <Checkbox checked={owned} onChange={this.handleOwnedChange}>我自己的书</Checkbox>
+        <Checkbox checked={borrowed} onChange={this.handleBorrowedChange}>我借阅的书</Checkbox>
+        <Checkbox checked={showDeleteBtn} onChange={this.handleShowDeleteBtnChange}>删除(显/隐)</Checkbox>
+      </div>
+    )
+  }
 }
 
 export default BooksFilter

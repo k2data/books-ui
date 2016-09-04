@@ -1,7 +1,8 @@
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { createSelector } from 'reselect'
 import { fetchBooks, removeBook } from '../modules/books'
-import { updateFilterText } from '../modules/filter'
+import { updateFilterText, actions } from '../modules/filter'
 import HomeView from '../components/HomeView'
 
 /**
@@ -40,8 +41,13 @@ const getTextFilteredBooks = createSelector(
 //
 // // TODO: filterBorrowed === true ???? filterBorrowed === true
 
-const mapActionCreators = {
-  updateFilterText, fetchBooks, removeBook
+const mapActionCreators = (dispatch) => {
+  let mappedActions = bindActionCreators(
+    {updateFilterText, fetchBooks, removeBook}, dispatch)
+
+  mappedActions.filterActions = bindActionCreators(actions, dispatch)
+
+  return mappedActions
 }
 
 const mapStateToProps = (state) => ({
