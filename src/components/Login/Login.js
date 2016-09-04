@@ -1,13 +1,13 @@
 import React from 'react'
-import { Link } from 'react-router'
+import { Button, Form, Input } from 'antd'
 import classes from './Login.scss'
 
+const createForm = Form.create
+const FormItem = Form.Item
+
 type Props = {
-  book: Object,
-  username: String,
-  password: String,
-  handleClick: Function,
-  fetchToken: Function
+  form: Object,
+  login: Function
 }
 
 export class Login extends React.Component {
@@ -15,37 +15,46 @@ export class Login extends React.Component {
 
   constructor (props) {
     super(props)
-    this.handleClick = this.handleClick.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleClick (event) {
-    const username = this.refs.username
-    const password = this.refs.password
-    const creds = { username: username.value.trim(), password: password.value.trim() }
-    return () => {
-      this.props.fetchToken(creds)
-    }
+  handleSubmit (e) {
+    e.preventDefault()
+    this.props.login(this.props.form.getFieldsValue())
+    console.log('用户登录：', this.props.form.getFieldsValue())
   }
 
   render () {
+    const { getFieldProps } = this.props.form
+    const formItemLayout = {
+      labelCol: { span: 6 },
+      wrapperCol: { span: 14 }
+    }
+
     return (
       <div className={classes.page}>
-        <h1>欢迎登录图书管理系统</h1>
-        <form className={classes.login} onSubmit={this.handleSubmit}>
-          <div className={classes.wrapper}>
-            <label className={classes.label} htmlFor='username'>帐号</label>
-            <input className={classes.input} type='text' ref='username' />
-            <br />
-            <label className={classes.label} htmlFor='password'>密码</label>
-            <input className={classes.input} type='password' ref='password' />
-          </div>
-          <button className={classes.button} onClick={this.handleClick}>
-          登录系统</button>
-          <Link to='/'><button className={classes.button}>返回主页</button></Link>
-        </form>
+        <div className={classes.formContainer} onSubmit={this.handleSubmit}>
+          <Form horizontal>
+            <FormItem
+              {...formItemLayout}
+              label='用户名'
+            >
+              <Input {...getFieldProps('username', {})} type='text' autoComplete='off' />
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label='密码'
+            >
+              <Input {...getFieldProps('password', {})} type='password' autoComplete='off' />
+            </FormItem>
+            <FormItem wrapperCol={{ span: 16, offset: 6 }} style={{ marginTop: 24 }}>
+              <Button type='primary' htmlType='submit'>登录</Button>
+            </FormItem>
+          </Form>
+        </div>
       </div>
     )
   }
 }
 
-export default Login
+export default createForm()(Login)

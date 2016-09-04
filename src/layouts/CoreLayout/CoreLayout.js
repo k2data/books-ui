@@ -4,7 +4,7 @@ import '../../styles/core.scss'
 import 'font-awesome/css/font-awesome.css'
 
 export const CoreLayout = ({ children }) => (
-  <div className='container text-center'>
+  <div className={classes['CoreLayout']}>
     <div className={classes.mainContainer}>
       {children}
     </div>

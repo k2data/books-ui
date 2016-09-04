@@ -1,4 +1,6 @@
 import fetch from 'isomorphic-fetch'
+import { push } from 'react-router-redux'
+
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -34,20 +36,25 @@ export function invalidBooks (error) {
 
 export function fetchBooks (id) {
   return (dispatch, getState) => {
+    const state = getState()
     dispatch(requestBooks())
     return fetch(`${__API_URL__}/books`, {
       headers: {
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.' +
-        'eyJleHAiOjE0NzE2Mzg1NjgsImlkIjoiYWRtaW4iLCJvcmlnX2lhdCI6MTQ3' +
-        'MTU5NTM2OH0.tw0FVHQnrv6pzGqp__JcZTs-PKUcuwlDi3ZTy3mLbNo'}
+        Authorization: `Bearer ${state.user.token}`
+      }
     })
       .then((res) => res.json())
       .then((json) => {
+        console.log(json)
         if (json.Error) {
-          return dispatch(invalidBooks(json))
+          dispatch(invalidBooks(json))
+          return dispatch(push('/login'))
         } else {
           return dispatch(receiveBooks(json))
         }
+      })
+      .catch(() => {
+        console.log('unexpected error!!!')
       })
   }
 }

@@ -1,36 +1,10 @@
 .page{
-  position: absolute;
-  margin: -300px 0 0 -100px;
-  top: 50%;
-  left: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.login{
-  width: 100%;
-  padding: 20px;
-  border-radius: 1%;
-  border: 1px solid black;
-  background-color:#e6e6fa;
-}
-
-.wrapper{
-  padding: 5px;
-  background-color: #fff;
-}
-
-.label{
-  padding: 8px;
-  color: #000080;
-  user-select: none;
-  cursor: text;
-}
-
-.input{
-  color: #696969;
-  letter-spacing: 0.05em;
-}
-
-.button{
-margin: 8px;
-text-align: center;
+.formContainer {
+  width: 360px;
 }

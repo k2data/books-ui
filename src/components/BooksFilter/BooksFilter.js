@@ -1,19 +1,23 @@
 import React from 'react'
+import { Button } from 'antd'
 import SearchBar from 'components/SearchBar'
 import classes from './BooksFilter.scss'
 
 export const BooksFilter = (props) => (
   <div className={classes['BooksFilter']}>
-    <SearchBar {...{bookFilter: props.bookFilter, updateFilterText: props.updateFilterText}} />
-    <button className={classes.button} onClick={filterOwned} >我自己的书</button>
-    <button className={classes.button} onClick={filterBorrowed} >我借阅的书</button>
-    <button className={classes.button} onClick={showDeleteButton}>删除(显/隐)</button>
+    <SearchBar {...{filter: props.filter, updateFilterText: props.updateFilterText}} />
+    <Button type='ghost' onClick={props.filterOwned}>我自己的书</Button>
+    <Button type='ghost' onClick={props.filterBorrowed}>我借阅的书</Button>
+    <Button type='ghost' onClick={props.showDeleteButton}>删除(显/隐)</Button>
   </div>
 )
 
 BooksFilter.propTypes = {
-  bookFilter: React.PropTypes.object,
-  updateFilterText: React.PropTypes.string
+  filter: React.PropTypes.object,
+  updateFilterText: React.PropTypes.func,
+  filterOwned: React.PropTypes.func,
+  filterBorrowed: React.PropTypes.func,
+  showDeleteButton: React.PropTypes.func
 }
 
 export default BooksFilter

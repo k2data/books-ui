@@ -1,13 +1,14 @@
 import { connect } from 'react-redux'
-import { updateToken, fetchToken } from '../modules/login'
+import { login } from 'store/modules/user'
 import Login from 'components/Login'
 
 const mapActionCreators = {
-  updateToken, fetchToken
+  login
 }
 
 const mapStateToProps = (state) => ({
-  login: state.login
+  // user: state.user
+  isLoggingIn: state.user.isLoggingIn
 })
 
 export default connect(mapStateToProps, mapActionCreators)(Login)

@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import classes from './SearchBar.scss'
 
 type Props = {
-  updateFilterText: Function,
-  bookFilter: String
+  updateFilterText: Object,
+  filter: String
 }
 
 export default class SearchBar extends Component {
@@ -19,7 +19,7 @@ export default class SearchBar extends Component {
     return (
       <div>
         <input type='text' className={classes.searchBar} placeholder='Search'
-          onChange={this.handleChange} value={this.props.bookFilter.text} />
+          onChange={this.handleChange} value={this.props.filter.text} />
       </div>
     )
   }

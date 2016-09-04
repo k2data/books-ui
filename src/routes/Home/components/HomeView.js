@@ -1,8 +1,7 @@
 import React from 'react'
 import BookList from 'components/BookList'
+import RightToolbarContainer from 'containers/RightToolbarContainer'
 import BooksFilter from 'components/BooksFilter'
-import { Link } from 'react-router'
-import SearchBar from 'components/SearchBar'
 import classes from './HomeView.scss'
 
 const Props = {
@@ -39,23 +38,11 @@ export class HomeView extends React.Component {
     const { filter, updateFilterText,
       books: { data: books } } = this.props
 
-    // TODO: move these to selector
-
-    // const filterOwned = () => {
-    //   this.setState({filterOwned: !this.state.filterOwned})
-    // }
-    //
-    // const filterBorrowed = () => {
-    //   this.setState({owned: !this.state.filterBorrowed})
-    // }
-    // const showDeleteButton = () => {
-    //   this.setState({showDeleteButton: !this.state.showDeleteButton})
-    // }
-
     return (
       <div>
-        <Link to='/newBook'><button className={classes.button}>新建</button></Link>
-        <Link to='/login'><button className={classes.button}>登录</button></Link>
+        <div className={classes.rightToolbar}>
+          <RightToolbarContainer />
+        </div>
         <BooksFilter {...{filter, updateFilterText}} />
         <br />
         <div>

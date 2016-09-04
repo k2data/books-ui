@@ -32,7 +32,7 @@ const config = {
   // ----------------------------------
   // API Configuration
   // ----------------------------------
-  api_url : process.env.API_URL || 'http://fanxiao.me:18080',
+  api_url : process.env.API_URL || 'http://localhost:18080',
 
   // ----------------------------------
   // Compiler Configuration
