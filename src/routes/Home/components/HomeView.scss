@@ -1,3 +1,11 @@
 .rightToolbar {
   float: right;
 }
+
+.bookItem {
+  border-bottom: 1px solid rgb(217, 217, 217);
+}
+
+.bookItem:first-child {
+  border-top: 1px solid rgb(217, 217, 217);
+}

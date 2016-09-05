@@ -3,8 +3,6 @@
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: flex-start;
-  border-top: 1px solid rgb(217, 217, 217);
-  border-bottom: 1px solid rgb(217, 217, 217);
   padding: 10px 0;
   height: 160px;
 
@@ -12,11 +10,6 @@
   .img { order: 1; }
   .info { order: 2; }
   .rate { order: 3; }
-}
-
-.item + .item {
-  border-top: 0;
-  border-bottom: 1px solid rgb(217, 217, 217);
 }
 
 .img{
@@ -50,6 +43,10 @@
   float: right;
   text-align: center;
   padding-top: 8px;
+
+  p + p {
+    margin-top: 5px;
+  }
 }
 
 .comment, .read, .remain, .tag{

@@ -49,7 +49,7 @@ export class HomeView extends React.Component {
         {
           books.map((book, index) => {
             return (
-              <div key={index}>
+              <div key={index} className={classes.bookItem}>
                 {this.state.showDeleteButton
                   ? <button className={classes.button}
                     onClick={this.handleRemoveBook(book.id)}>
