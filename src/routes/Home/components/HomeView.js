@@ -1,5 +1,5 @@
 import React from 'react'
-import BookList from 'components/BookList'
+import BookItem from 'components/BookItem'
 import RightToolbarContainer from 'containers/RightToolbarContainer'
 import BooksFilter from 'components/BooksFilter'
 import classes from './HomeView.scss'
@@ -56,7 +56,7 @@ export class HomeView extends React.Component {
                   删除</button>
                   : false
                 }
-                <BookList {...{book}} />
+                <BookItem {...{book}} />
               </div>
          )
           })

@@ -1,12 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router'
-import classes from './BookList.scss'
+import classes from './BookItem.scss'
 
 type Props = {
   book: Object, routeParams: Number
 }
 
-export class BookList extends React.Component {
+export class BookItem extends React.Component {
   props: Props
 
   render () {
@@ -18,7 +18,9 @@ export class BookList extends React.Component {
         <div className={classes.img}>
           <Link to={`bookShow/${book.id}`} activeClassName={classes.activeRoute}>
             <img className={classes.imge}
-              src={book.source} /></Link></div>
+              src={book.source} />
+          </Link>
+        </div>
         <div className={classes.info}>
           <h4><Link to={`bookShow/${book.id}`} activeClassName={classes.activeRoute}>
           {book.name}</Link></h4>
@@ -26,9 +28,12 @@ export class BookList extends React.Component {
             &nbsp;&nbsp; publishedAt <em>{book.date}</em></p>
           <p>[借]</p>
           <p> Description<em>{book.description}</em></p>
-          <p> <span className={classes.tag}>Tag</span>
-            &nbsp;&nbsp;<span className={classes.tag}>Tag</span>
-            &nbsp;&nbsp;<span className={classes.tag}>Tag</span></p></div>
+          <p className={classes.tags}>
+            <span className={classes.tag}>Tag</span>
+            <span className={classes.tag}>Tag</span>
+            <span className={classes.tag}>Tag</span>
+          </p>
+        </div>
         <div className={classes.rate}>
           <p>{book.rate}<i className='fa fa-heart-o fa-lg' aria-hidden='true' /></p>
           <p>{book.comment}<span className={classes.comment}>评</span></p>
@@ -40,4 +45,4 @@ export class BookList extends React.Component {
   }
 }
 
-export default BookList
+export default BookItem
