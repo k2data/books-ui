@@ -1,8 +1,9 @@
 import { connect } from 'react-redux'
-// import { updateFilterText } from 'store/modules/user'
+import { logout } from 'store/modules/user'
 import ManagementToolbar from 'components/ManagementToolbar'
 
 const mapActionCreators = {
+  logout
 }
 
 const mapStateToProps = (state) => ({
