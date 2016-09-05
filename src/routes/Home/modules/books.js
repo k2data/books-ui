@@ -45,7 +45,6 @@ export function fetchBooks (id) {
     })
       .then((res) => res.json())
       .then((json) => {
-        console.log(json)
         if (json.Error) {
           dispatch(invalidBooks(json))
           return dispatch(push('/login'))
