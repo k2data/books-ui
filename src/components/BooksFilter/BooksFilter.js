@@ -44,7 +44,7 @@ export class BooksFilter extends React.Component {
         <SearchBar {...{filter, updateFilterText}} />
         <Checkbox checked={owned} onChange={this.handleOwnedChange}>我自己的书</Checkbox>
         <Checkbox checked={borrowed} onChange={this.handleBorrowedChange}>我借阅的书</Checkbox>
-        <Checkbox checked={showDeleteBtn} onChange={this.handleShowDeleteBtnChange}>删除(显/隐)</Checkbox>
+        <Checkbox checked={showDeleteBtn} onChange={this.handleShowDeleteBtnChange}>编辑</Checkbox>
       </div>
     )
   }
