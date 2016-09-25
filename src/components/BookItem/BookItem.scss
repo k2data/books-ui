@@ -28,10 +28,16 @@
   float:left;
   text-align: left;
   padding-left: 10px;
-  line-height: 1.6em;
+  line-height: 2em;
 
   .tags {
     padding: 10px 0 0;
+  }
+
+  .tag {
+    padding: 3px;
+    border: 1px solid #666;
+    border-radius: 10px;
   }
 
   .tag + .tag {
@@ -45,12 +51,12 @@
   padding-top: 8px;
 
   p + p {
-    margin-top: 5px;
+    margin-top: 12px;
   }
 }
 
-.comment, .read, .remain, .tag{
+.comment, .read, .remain {
   border: 1px solid #666;
   border-radius: 50%;
-  padding: 2px;
+  padding: 5px;
 }

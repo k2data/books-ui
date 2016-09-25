@@ -11,6 +11,7 @@ export class BookItem extends React.Component {
 
   render () {
     const { book } = this.props
+    const { borrowers = [] } = book
 
     return (
       <div className={classes.item}>
@@ -21,12 +22,32 @@ export class BookItem extends React.Component {
           </Link>
         </div>
         <div className={classes.info}>
-          <h4><Link to={`bookShow/${book.id}`} activeClassName={classes.activeRoute}>
-          {book.name}</Link></h4>
-          <p>[作]<em>{book.author}</em>  &nbsp;&nbsp; [译]<em>{book.translator}</em>
-            &nbsp;&nbsp; publishedAt <em>{book.date}</em></p>
-          <p>[借]</p>
-          <p> Description<em>{book.description}</em></p>
+          <h3>
+            <Link to={`bookShow/${book.id}`} activeClassName={classes.activeRoute}>
+              {book.name}
+            </Link>
+          </h3>
+          <p>
+            [作]<em>{book.author}</em>
+            &nbsp;&nbsp;
+            {book.translator
+              ? <span>[译]<em>{book.translator}</em></span>
+              : false
+            }
+            &nbsp;&nbsp;
+            {book.date
+              ? <span>出版日期 <em>{book.date}</em></span>
+              : false
+            }
+          </p>
+          {borrowers && borrowers.length > 0
+            ? <p>
+              [借]<em>{borrowers.map((borrower) => borrower.name)
+                .join(', ')}</em>
+            </p>
+            : false
+          }
+          <p>{book.description || '没有描述信息...'}</p>
           <p className={classes.tags}>
             <span className={classes.tag}>Tag</span>
             <span className={classes.tag}>Tag</span>

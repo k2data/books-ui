@@ -52,8 +52,8 @@ export function fetchBooks (id) {
           return dispatch(receiveBooks(json))
         }
       })
-      .catch(() => {
-        console.log('unexpected error!!!')
+      .catch((e) => {
+        console.log(e)
       })
   }
 }
