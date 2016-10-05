@@ -24,18 +24,36 @@ export function receiveBook (data) {
 
 export function fetchBook (id) {
   return (dispatch, getState) => {
+    const state = getState()
     dispatch(requestBook())
     return fetch(`${__API_URL__}/books/${id}`, {
       headers: {
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.' +
-        'eyJleHAiOjE0NzE0NjM4NDQsImlkIjoiYWRtaW4iLCJvcmlnX2lhdCI6MTQ3' +
-        'MTQyMDY0NH0.A721xVtnqAUQ-2Ws-yCAVEZpGw2pEom3UghkDZqr9p0'
+        Authorization: `Bearer ${state.user.token}`
       }})
       .then((res) => res.json())
       .then((json) => {
         console.log(json)
         return dispatch(receiveBook(json))
       })
+  }
+}
+
+export function postBook (book) {
+  return (dispatch, getState) => {
+    const state = getState()
+    console.log(book)
+
+    return fetch(`${__API_URL__}/books`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${state.user.token}`
+      },
+      body: JSON.stringify(book)
+    }).then((res) => {
+      console.log(res)
+    })
   }
 }
 
@@ -60,7 +78,7 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {
-  book: {}
+  data: {}
 }
 
 export default function bookShow (state = initialState, action) {

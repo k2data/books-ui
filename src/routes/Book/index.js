@@ -1,7 +1,7 @@
 import { injectReducer } from '../../store/reducers'
 
 export default (store) => ({
-  path: 'newBook',
+  path: 'books/:bookId',
   /*  Async getComponent is only invoked when route matches   */
   getComponent (nextState, cb) {
     /*  Webpack - use 'require.ensure' to create a split point
@@ -9,14 +9,17 @@ export default (store) => ({
     require.ensure([], (require) => {
       /*  Webpack - use require callback to define
           dependencies for bundling   */
-      const NewBook = require('./containers/NewBookContainer').default
-      const reducer = require('./modules/newBook').default
+
+      const Book = nextState.params.bookId !== 'creating'
+        ? require('./containers/BookShowContainer').default
+        : require('./containers/NewBookContainer').default
+      const reducer = require('./modules/book').default
 
       /*  Add the reducer to the store on key 'bookShow'  */
-      injectReducer(store, { key: 'newBook', reducer })
+      injectReducer(store, { key: 'book', reducer })
 
       /*  Return getComponent   */
-      cb(null, NewBook)
+      cb(null, Book)
 
     /* Webpack named bundle   */
     }, 'newBook')

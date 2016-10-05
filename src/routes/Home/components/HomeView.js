@@ -1,4 +1,5 @@
 import React from 'react'
+import { Button } from 'antd'
 import BookItem from 'components/BookItem'
 import RightToolbarContainer from 'containers/RightToolbarContainer'
 import BooksFilter from 'components/BooksFilter'
@@ -50,10 +51,13 @@ export class HomeView extends React.Component {
           books.map((book, index) => {
             return (
               <div key={index} className={classes.bookItem}>
-                {this.state.showDeleteButton
-                  ? <button className={classes.button}
-                    onClick={this.handleRemoveBook(book.id)}>
-                  删除</button>
+                {filter.showDeleteBtn
+                  ? <div className={classes.deleteBtn}>
+                    <Button type='dashed'
+                      onClick={this.handleRemoveBook(book.id)}>
+                      删除
+                    </Button>
+                  </div>
                   : false
                 }
                 <BookItem {...{book}} />

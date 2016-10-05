@@ -1,8 +1,7 @@
 // We only need to import the modules necessary for initial render
 import CoreLayout from '../layouts/CoreLayout/CoreLayout'
 import Home from './Home'
-import NewBookRoute from './NewBook'
-import BookShowRoute from './BookShow'
+import BookRoute from './Book'
 import LoginRoute from './Login'
 
 /*  Note: Instead of using JSX, we recommend using react-router
@@ -13,7 +12,7 @@ export const createRoutes = (store) => ({
   component: CoreLayout,
   indexRoute: Home(store),
   childRoutes: [
-    BookShowRoute(store), NewBookRoute(store), LoginRoute(store)
+    BookRoute(store), LoginRoute(store)
   ]
 })
 

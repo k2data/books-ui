@@ -1,45 +1,133 @@
 import React from 'react'
-import classes from './BookEdit.scss'
+import { Form, Input, InputNumber, DatePicker, Button } from 'antd'
+import moment from 'moment'
+// import classes from './BookEdit.scss'
+
+const FormItem = Form.Item
+const format = 'YYYY-MM-DD'
 
 type Props = {
   book: Object,
-  handleChange: Function
+  form: Object,
+  handleChange: Function,
+  getFieldDecorator: Function,
+  save: Function
 }
 
 export class BookEdit extends React.Component {
   props: Props
 
+  constructor (props) {
+    super(props)
+
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.bookExists = this.bookExists.bind(this)
+  }
+
+  handleSubmit (e) {
+    e.preventDefault()
+    const book = this.props.form.getFieldsValue()
+    this.props.save(book)
+  }
+
+  bookExists (rule, value, callback) {
+    if (!value) {
+      callback()
+    } else {
+      setTimeout(() => {
+        if (value === 'Book1') {
+          callback([new Error('书名已存在。')])
+        } else {
+          callback()
+        }
+      }, 800)
+    }
+  }
+
   render () {
-    const { book, handleChange } = this.props
-    console.log(book)
+    const { getFieldDecorator } = this.props.form
+    const formItemLayout = {
+      labelCol: { span: 6 },
+      wrapperCol: { span: 14 }
+    }
     return (
-      <div className={classes.item}>
-        <div className={classes.img}>
-          <img className={classes.imge} src={book.source} /></div>
-        <div className={classes.detail}>
-          <fieldset><legend>详细信息</legend>
-            <h4>书名：<em><input type='text' name='name' value={book.name}
-              onChange={handleChange} /></em></h4>
-            <p>作者：<em><input type='text' name='author' value={book.author}
-              onChange={handleChange} /></em></p>
-            <p>译者：<em><input type='text' name='translator' value={book.translator}
-              onChange={handleChange} /></em></p>
-            <p>页数：<em><input type='number' name='pages' value={book.pages}
-              onChange={handleChange} /></em></p>
-            <p>出版社：<em><input type='text' name='publisher' value={book.publisher}
-              onChange={handleChange} /></em></p>
-            <p>出版日期：<em><input type='date' name='publishedAt' value={book.date}
-              onChange={handleChange} /></em></p>
-            <p>读者评论：<em><input type='text' name='words' value={book.words}
-              onChange={handleChange} /></em></p>
-            <p>图书内容：<em><input type='text' name='content' value={book.content}
-              onChange={handleChange} /></em></p>
-            <p>借阅信息：<em><input type='text' name='status' value={book.status}
-              onChange={handleChange} /></em></p>
-          </fieldset></div>
-      </div>
+      <Form horizontal onSubmit={this.handleSubmit}>
+        <FormItem
+          {...formItemLayout}
+          label='书名'
+          hasFeedback
+        >
+          {getFieldDecorator('name', {
+            initialValue: '',
+            validate: [{
+              rules: [
+                { validator: this.bookExists }
+              ],
+              trigger: 'onBlur'
+            }, {
+              rules: [
+                { required: true, message: '书名不能为空' }
+              ],
+              trigger: ['onBlur', 'onChange']
+            }]
+          })(
+            <Input type='text' placeholder='' />
+          )}
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label='数量'
+        >
+          {getFieldDecorator('quantity', { initialValue: 1 })(
+            <InputNumber placeholder='' />
+          )}
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label='作者'
+        >
+          {getFieldDecorator('author', { initialValue: '' })(
+            <Input type='text' placeholder='' />
+          )}
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label='译者'
+        >
+          {getFieldDecorator('translator', { initialValue: '' })(
+            <Input type='text' placeholder='' />
+          )}
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label='页数'
+        >
+          {getFieldDecorator('pages', { initialValue: 0 })(
+            <InputNumber placeholder='' />
+          )}
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label='出版社'
+        >
+          {getFieldDecorator('publisher', { initialValue: '' })(
+            <Input type='text' placeholder='' />
+          )}
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label='出版日期'
+        >
+          {getFieldDecorator('publishedAt', { initialValue: moment(new Date(), format) })(
+            <DatePicker />
+          )}
+        </FormItem>
+        <FormItem wrapperCol={{ span: 16, offset: 6 }} style={{ marginTop: 24 }}>
+          <Button type='primary' htmlType='submit'>保存</Button>
+        </FormItem>
+      </Form>
     )
   }
 }
 
-export default BookEdit
+export default Form.create()(BookEdit)

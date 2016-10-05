@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { fetchBook } from '../modules/bookShow'
+import { fetchBook } from '../modules/book'
 import BookShow from 'components/BookShow'
 
 const mapActionCreators = {

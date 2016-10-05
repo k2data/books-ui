@@ -25,7 +25,7 @@ export class Login extends React.Component {
   }
 
   render () {
-    const { getFieldProps } = this.props.form
+    const { getFieldDecorator } = this.props.form
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 }
@@ -39,13 +39,17 @@ export class Login extends React.Component {
               {...formItemLayout}
               label='用户名'
             >
-              <Input {...getFieldProps('username', {})} type='text' autoComplete='off' />
+              {getFieldDecorator('username', {})(
+                <Input type='text' autoComplete='off' />
+              )}
             </FormItem>
             <FormItem
               {...formItemLayout}
               label='密码'
             >
-              <Input {...getFieldProps('password', {})} type='password' autoComplete='off' />
+              {getFieldDecorator('password', {})(
+                <Input type='password' autoComplete='off' />
+              )}
             </FormItem>
             <FormItem wrapperCol={{ span: 16, offset: 6 }} style={{ marginTop: 24 }}>
               <Button type='primary' htmlType='submit'>登录</Button>

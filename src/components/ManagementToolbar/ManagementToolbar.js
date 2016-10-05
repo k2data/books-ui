@@ -5,7 +5,7 @@ import classes from './ManagementToolbar.scss'
 
 export const ManagementToolbar = (props) => (
   <div className={classes['ManagementToolbar']}>
-    <Link to='/newBook'><Button type='ghost'>新建</Button></Link>
+    <Link to='/books/creating'><Button type='ghost'>新建</Button></Link>
     {
       props.user.token
         ? <Link to='/login'><Button type='ghost' onClick={props.logout}>登出</Button></Link>

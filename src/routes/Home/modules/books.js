@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch'
 import { push } from 'react-router-redux'
+import R from 'ramda'
 
 // ------------------------------------
 // Constants
@@ -34,6 +35,13 @@ export function invalidBooks (error) {
   }
 }
 
+export function removeBookLocal (id) {
+  return {
+    type: REMOVE_BOOK,
+    id
+  }
+}
+
 export function fetchBooks (id) {
   return (dispatch, getState) => {
     const state = getState()
@@ -41,8 +49,7 @@ export function fetchBooks (id) {
     return fetch(`${__API_URL__}/books`, {
       headers: {
         Authorization: `Bearer ${state.user.token}`
-      }
-    })
+      } })
       .then((res) => res.json())
       .then((json) => {
         if (json.Error) {
@@ -60,14 +67,20 @@ export function fetchBooks (id) {
 
 export function removeBook (id) {
   return (dispatch, getState) => {
+    const state = getState()
     return fetch(`${__API_URL__}/books/${id}`, {
       method: 'DELETE',
-      headers: {
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.' +
-        'eyJleHAiOjE0NzE2Mzg1NjgsImlkIjoiYWRtaW4iLCJvcmlnX2lhdCI6MTQ3' +
-        'MTU5NTM2OH0.tw0FVHQnrv6pzGqp__JcZTs-PKUcuwlDi3ZTy3mLbNo'}
+      headers: { Authorization: `Bearer ${state.user.token}` }
     }).then((res) => {
-      console.log(res)
+      if (res.ok) {
+        console.log('dispatch!!')
+        dispatch(removeBookLocal(id))
+        return {}
+      } else {
+        return res.json()
+      }
+    }).then((json) => {
+      console.log(json)
     })
   }
 }
@@ -92,6 +105,11 @@ const ACTION_HANDLERS = {
       isFetching: false,
       error: action.error,
       data: []
+    })
+  },
+  [REMOVE_BOOK]: (state, action) => {
+    return Object.assign({}, state, {
+      data: R.filter((book) => book.id !== action.id, state.data)
     })
   }
 }
