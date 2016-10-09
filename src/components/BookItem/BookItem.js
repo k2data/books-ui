@@ -16,14 +16,14 @@ export class BookItem extends React.Component {
     return (
       <div className={classes.item}>
         <div className={classes.img}>
-          <Link to={`bookShow/${book.id}`} activeClassName={classes.activeRoute}>
+          <Link to={`books/${book.id}`} activeClassName={classes.activeRoute}>
             <img className={classes.imge}
               src={book.source} />
           </Link>
         </div>
         <div className={classes.info}>
           <h3>
-            <Link to={`bookShow/${book.id}`} activeClassName={classes.activeRoute}>
+            <Link to={`books/${book.id}`} activeClassName={classes.activeRoute}>
               {book.name}
             </Link>
           </h3>

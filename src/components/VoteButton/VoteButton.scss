@@ -1,0 +1,19 @@
+.VoteButton {
+  display: inline-block;
+  text-align: center;
+}
+
+.voteUp {
+  display: block;
+  margin: 0 auto;
+}
+
+.voteDown {
+  display: block;
+  margin: 0 auto;
+  transform: rotate(180deg);
+}
+
+.vote {
+  display: inline-block;
+}

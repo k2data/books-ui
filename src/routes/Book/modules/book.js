@@ -4,7 +4,8 @@ import fetch from 'isomorphic-fetch'
 // ------------------------------------
 export const REQUEST_BOOK = 'REQUEST_BOOK'
 export const RECEIVE_BOOK = 'RECEIVE_BOOK'
-export const FETCH_BOOK = 'FETCH_BOOK'
+export const INVALID_BOOK = 'INVALID_BOOK'
+export const CLEAR_BOOK = 'CLEAR_BOOK'
 
 // ------------------------------------
 // Actions
@@ -19,6 +20,12 @@ export function receiveBook (data) {
   return {
     type: RECEIVE_BOOK,
     data
+  }
+}
+
+export function clearBook () {
+  return {
+    type: CLEAR_BOOK
   }
 }
 
@@ -57,6 +64,25 @@ export function postBook (book) {
   }
 }
 
+export function borrowBook () {
+  return (dispatch, getState) => {
+    const {user: { user, token }, book: { data: book }} = getState()
+    console.log(user)
+    return fetch(`${__API_URL__}/books/borrow`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({user, book})
+    }).then((res) => res.json())
+      .then((json) => {
+        return dispatch(receiveBook(json))
+      })
+  }
+}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
@@ -69,8 +95,11 @@ const ACTION_HANDLERS = {
   [RECEIVE_BOOK]: (state, action) => {
     return Object.assign({}, state, {
       isFetching: false,
-      book: action.data
+      data: action.data
     })
+  },
+  [CLEAR_BOOK]: (state, action) => {
+    return Object.assign({}, state, initialState)
   }
 }
 
@@ -81,7 +110,7 @@ const initialState = {
   data: {}
 }
 
-export default function bookShow (state = initialState, action) {
+export default function book (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

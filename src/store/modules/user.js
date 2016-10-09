@@ -6,6 +6,7 @@ import { push } from 'react-router-redux'
 export const REQUEST_LOGIN = 'REQUEST_LOGIN'
 export const RESPONSE_LOGIN = 'RESPONSE_LOGIN'
 export const INVALID_LOGIN = 'INVALID_LOGIN'
+export const RECEIVE_USER = 'RECEIVE_USER'
 export const SET_TOKEN = 'SET_TOKEN'
 export const LOGOUT = 'LOGOUT'
 
@@ -28,6 +29,13 @@ export function responseLogin (user) {
 export function invalidLogin () {
   return {
     type: INVALID_LOGIN
+  }
+}
+
+export function receiveUser (user) {
+  return {
+    type: RECEIVE_USER,
+    user
   }
 }
 
@@ -57,9 +65,20 @@ export function login (creds) {
     })
       .then((res) => res.json())
       .then((json) => {
-        dispatch(responseLogin({username: creds.username}))
         dispatch(setToken(json.token))
-        return dispatch(push('/'))
+        dispatch(push('/'))
+        return fetch(`${__API_URL__}/users?email=${creds.username}`, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${json.token}`
+          }
+        })
+      })
+      .then((res) => res.json())
+      .then((json) => {
+        dispatch(receiveUser(json[0]))
       })
       .catch(() => {
         return dispatch(invalidLogin())
@@ -78,13 +97,17 @@ const ACTION_HANDLERS = {
   },
   [RESPONSE_LOGIN]: (state, action) => {
     return Object.assign({}, state, {
-      isLoggingIn: false,
-      user: action.user
+      isLoggingIn: false
     })
   },
   [INVALID_LOGIN]: (state) => {
     return Object.assign({}, state, {
       isLoggingIn: false
+    })
+  },
+  [RECEIVE_USER]: (state, action) => {
+    return Object.assign({}, state, {
+      user: action.user
     })
   },
   [SET_TOKEN]: (state, action) => {

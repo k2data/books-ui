@@ -13,10 +13,12 @@ export default (store) => ({
       const Book = nextState.params.bookId !== 'creating'
         ? require('./containers/BookShowContainer').default
         : require('./containers/NewBookContainer').default
-      const reducer = require('./modules/book').default
+      const bookReducer = require('./modules/book').default
+      const brReducer = require('./modules/borrowRecord').default
 
       /*  Add the reducer to the store on key 'bookShow'  */
-      injectReducer(store, { key: 'book', reducer })
+      injectReducer(store, { key: 'book', reducer: bookReducer })
+      injectReducer(store, { key: 'borrowRecords', reducer: brReducer })
 
       /*  Return getComponent   */
       cb(null, Book)

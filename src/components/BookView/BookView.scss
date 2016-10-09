@@ -1,38 +1,40 @@
-.item {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-  align-items: flex-start;
-  .info { flex: 3 0px; }
-  .img { order: 1; }
-  .info { order: 2; }
+.BookView {
 }
 
-.img{
-  margin-top: 5px;
-  margin-bottom: 5px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  .imge{
+.thumbnail {
+  display: inline-block;
+
+  img {
     height:138px;
     width: 138px;
   }
 }
 
 .info{
-  float:left;
+  display: inline-block;
+  vertical-align: top;
   text-align: left;
   padding-left: 10px;
+  line-height: 2em;
+}
+
+.borrowers {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.datesSpliter {
+  padding: 0 10px;
+}
+
+.oprs {
+  margin-top: 10px;
 }
 
 .tag{
   border: 1px solid black;
   border-radius: 50%;
   padding: 2px;
-}
-
-.rate{
-  float: right;
 }
 
 .tab{

@@ -1,12 +1,20 @@
 import React from 'react'
 import update from 'react-addons-update'
-import BookEdit from 'components/BookEdit'
+import R from 'ramda'
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
+import VoteButton from 'components/VoteButton'
 import BookView from 'components/BookView'
 import classes from './BookShow.scss'
 
 const Props = {
-  bookShow: React.PropTypes.object,
-  fetchBook: React.PropTypes.func
+  book: React.PropTypes.object,
+  borrowRecords: React.PropTypes.object,
+  user: React.PropTypes.object,
+  fetchBook: React.PropTypes.func,
+  borrowBook: React.PropTypes.func,
+  removeBook: React.PropTypes.func,
+  fetchBRs: React.PropTypes.func,
+  clearBook: React.PropTypes.func
 }
 
 export class BookShow extends React.Component {
@@ -14,8 +22,11 @@ export class BookShow extends React.Component {
 
   constructor (props) {
     super(props)
-    this.state = { book: {} }
     this.state = { showBookEditDiv: false }
+
+    this.isBookChanged = this.isBookChanged.bind(this)
+    this.isBookBorrowed = this.isBookBorrowed.bind(this)
+    this.fetchBorrowRecords = this.fetchBorrowRecords.bind(this)
     this.convert = this.convert.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleRenewBook = this.handleRenewBook.bind(this)
@@ -23,11 +34,38 @@ export class BookShow extends React.Component {
   }
 
   componentDidMount () {
-    this.props.fetchBook(this.props.routeParams.id)
+    this.props.fetchBook(this.props.routeParams.bookId)
   }
 
   componentWillReceiveProps (nextProps) {
-    this.setState({ book: nextProps.bookShow.book })
+    if (this.isBookChanged(nextProps) && this.isBookBorrowed(nextProps)) {
+      this.fetchBorrowRecords(nextProps)
+    }
+  }
+
+  componentWillUnmount () {
+    this.props.clearBook()
+  }
+
+  isBookChanged (nextProps) {
+    // const {data: { borrowers = [] } = {}} = nextProps
+    return !R.equals(this.props.book.data, nextProps.book.data)
+  }
+
+  isBookBorrowed (props) {
+    return props.book.data.borrowers &&
+      props.book.data.borrowers.length > 0
+  }
+
+  fetchBorrowRecords (props) {
+    const { book: { data: book = {} } = {} } = props
+    this.props.fetchBRs({
+      bookID: book.id,
+      userIDs: book.borrowers
+        .map((borrower) => borrower.id)
+        .join(','),
+      status: '借阅中'
+    })
   }
 
   handleChange (event) {
@@ -37,16 +75,7 @@ export class BookShow extends React.Component {
   }
 
   handleRemoveBook () {
-    fetch(`${__API_URL__}/books/${this.state.book.id}`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.' +
-        'eyJleHAiOjE0NzE0NjM4NDQsImlkIjoiYWRtaW4iLCJvcmlnX2lhdCI6MTQ3' +
-        'MTQyMDY0NH0.A721xVtnqAUQ-2Ws-yCAVEZpGw2pEom3UghkDZqr9p0'
-      }
-    }).then((res) => {
-      console.log(res)
-    })
+    this.props.removeBook(this.props.book.data.id)
   }
 
   handleRenewBook () {
@@ -73,31 +102,45 @@ export class BookShow extends React.Component {
   }
 
   render () {
-    const { book } = this.state
+    const { book: { data: book }, borrowRecords, user, borrowBook } = this.props
     console.log(book)
-
-    const showBookEditDiv = () => {
-      this.setState({showBookEditDiv: !this.state.showBookEditDiv})
-    }
 
     return (
       <div>
-        <button className={classes.button} onClick={this.handleRemoveBook}>
-        删除 </button>
-        <button className={classes.button} onClick={showBookEditDiv}>
-        更新/展示 </button>
-        {this.state.showBookEditDiv
-          ? true
-          : <BookView {...{book}} />
-        }
-        {this.state.showBookEditDiv
-          ? <div>
-            <BookEdit {...{book, handleChange: this.handleChange}} />
-            <button className={classes.button} onClick={this.handleRenewBook}>
-            保存 </button>
+        <div className={classes.info}>
+          <div className={classes.mainInfo}>
+            <BookView {...{book, borrowRecords, user, borrowBook}} />
           </div>
-          : false
-        }
+          <div className={classes.toolbar}>
+            <VoteButton />
+          </div>
+        </div>
+        <div className={classes.moreInfo}>
+          <Tabs className={classes.tab} onSelect={this.handleSelect} selectedIndex={2}>
+            <TabList className={classes.tabList}>
+              <Tab>读者评论</Tab>
+              <Tab>图书内容</Tab>
+              <Tab>出版信息</Tab>
+              <Tab>借阅记录</Tab>
+            </TabList>
+            <TabPanel className={classes.tabPanel}>
+              <h3>读者评论</h3>
+              <p>这里是读者评论区域，请在这里留下你的评论</p>
+            </TabPanel>
+            <TabPanel className={classes.tabPanel}>
+              <h3>图书内容</h3>
+              <p>这里是图书内容区域，请在这里输入图书的内容简介</p>
+            </TabPanel>
+            <TabPanel className={classes.tabPanel}>
+              <h3>出版信息</h3>
+              <p>这里是出版信息区域，请在这里输入图书的出版信息</p>
+            </TabPanel>
+            <TabPanel className={classes.tabPanel}>
+              <h3>借阅记录</h3>
+              <p>这里是借阅记录区域，请在这里输入图书的借阅记录</p>
+            </TabPanel>
+          </Tabs>
+        </div>
       </div>
      )
   }
