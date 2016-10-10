@@ -67,8 +67,25 @@ export function postBook (book) {
 export function borrowBook () {
   return (dispatch, getState) => {
     const {user: { user, token }, book: { data: book }} = getState()
-    console.log(user)
     return fetch(`${__API_URL__}/books/borrow`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({user, book})
+    }).then((res) => res.json())
+      .then((json) => {
+        return dispatch(receiveBook(json))
+      })
+  }
+}
+
+export function returnBook () {
+  return (dispatch, getState) => {
+    const {user: { user, token }, book: { data: book }} = getState()
+    return fetch(`${__API_URL__}/books/return`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

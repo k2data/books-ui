@@ -8,6 +8,7 @@ import classes from './HomeView.scss'
 const Props = {
   books: React.PropTypes.object,
   filter: React.PropTypes.object,
+  user: React.PropTypes.object,
   fetchBooks: React.PropTypes.func,
   removeBook: React.PropTypes.func,
   updateFilterText: React.PropTypes.func,
@@ -37,21 +38,21 @@ export class HomeView extends React.Component {
   }
 
   render () {
-    const { filter, updateFilterText, books } = this.props
+    const { filter, updateFilterText, books, fetchBooks, user } = this.props
 
     return (
       <div>
         <div className={classes.rightToolbar}>
           <RightToolbarContainer />
         </div>
-        <BooksFilter {...{filter, actions: this.props.filterActions, updateFilterText}} />
+        <BooksFilter {...{filter, actions: this.props.filterActions, updateFilterText, fetchBooks}} />
         <br />
         <div>
         {
           books.map((book, index) => {
             return (
               <div key={index} className={classes.bookItem}>
-                {filter.showDeleteBtn
+                {filter.showDeleteBtn && user.id === book.ownerID
                   ? <div className={classes.deleteBtn}>
                     <Button type='dashed'
                       onClick={this.handleRemoveBook(book.id)}>

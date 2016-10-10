@@ -12,6 +12,7 @@ export const INVALID_BR = 'INVALID_BR'
 export const REQUEST_BRS = 'REQUEST_BRS'
 export const RECEIVE_BRS = 'RECEIVE_BRS'
 export const INVALID_BRS = 'INVALID_BRS'
+export const CLEAR_BRS = 'CLEAR_BRS'
 
 // ------------------------------------
 // Actions
@@ -67,6 +68,12 @@ export function receiveBRs (data) {
   return {
     type: RECEIVE_BRS,
     data
+  }
+}
+
+export function clearBRs () {
+  return {
+    type: CLEAR_BRS
   }
 }
 
@@ -129,6 +136,9 @@ const ACTION_HANDLERS = {
       isFetching: false,
       data: action.data
     })
+  },
+  [CLEAR_BRS]: (state, action) => {
+    return initialState
   }
 }
 

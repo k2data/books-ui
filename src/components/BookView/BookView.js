@@ -8,7 +8,8 @@ type Props = {
   book: React.PropTypes.object,
   borrowRecords: React.PropTypes.object,
   user: React.PropTypes.object,
-  borrowBook: React.PropTypes.func
+  borrowBook: React.PropTypes.func,
+  returnBook: React.PropTypes.func
 }
 
 export class BookView extends React.Component {
@@ -23,7 +24,10 @@ export class BookView extends React.Component {
       return false
     }
 
+    console.log(user)
+    console.log(borrowRecords)
     const index = R.findIndex(R.propEq('userID', user.id))(borrowRecords)
+    console.log('index', index)
 
     return index >= 0
   }
@@ -33,8 +37,6 @@ export class BookView extends React.Component {
     const { data: brList = [] } = borrowRecords
     const borrowersCount = book.borrowers ? book.borrowers.length : 0
     const bookLeft = (book.quantity || 0) - borrowersCount
-
-    console.log(brList)
 
     return (
       <div className={classes['BookView']}>
@@ -84,8 +86,9 @@ export class BookView extends React.Component {
             共{book.quantity}本，余{bookLeft}本
           </div>
           <div className={classes.oprs}>
-          {this.isLoginUserBorrowing(user, borrowRecords)
-            ? [<Button type='ghost'>续借</Button>, <Button type='ghost'>还书</Button>]
+          {this.isLoginUserBorrowing(user, brList)
+            ? [<Button key='1' type='ghost' disabled>续借</Button>,
+              <Button key='2' type='ghost' onClick={this.props.returnBook}>还书</Button>]
             : <Button type='ghost' disabled={bookLeft < 1}
               onClick={this.props.borrowBook}>
               借书

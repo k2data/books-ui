@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch'
 import { push } from 'react-router-redux'
 import R from 'ramda'
+import { filter2QueryStr } from 'store/utils/fetch'
 
 // ------------------------------------
 // Constants
@@ -42,13 +43,16 @@ export function removeBookLocal (id) {
   }
 }
 
-export function fetchBooks (id) {
+export function fetchBooks () {
   return (dispatch, getState) => {
-    const state = getState()
+    const { booksFilter, user } = getState()
+    const queryParamsStr = filter2QueryStr(booksFilter, user.user)
+    console.log(`${__API_URL__}/books?${queryParamsStr}`)
+
     dispatch(requestBooks())
-    return fetch(`${__API_URL__}/books`, {
+    return fetch(`${__API_URL__}/books?${queryParamsStr}`, {
       headers: {
-        Authorization: `Bearer ${state.user.token}`
+        Authorization: `Bearer ${user.token}`
       } })
       .then((res) => res.json())
       .then((json) => {

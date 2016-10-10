@@ -12,8 +12,10 @@ const Props = {
   user: React.PropTypes.object,
   fetchBook: React.PropTypes.func,
   borrowBook: React.PropTypes.func,
+  returnBook: React.PropTypes.func,
   removeBook: React.PropTypes.func,
   fetchBRs: React.PropTypes.func,
+  clearBRs: React.PropTypes.func,
   clearBook: React.PropTypes.func
 }
 
@@ -38,7 +40,7 @@ export class BookShow extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (this.isBookChanged(nextProps) && this.isBookBorrowed(nextProps)) {
+    if (this.isBookChanged(nextProps)) {
       this.fetchBorrowRecords(nextProps)
     }
   }
@@ -59,13 +61,17 @@ export class BookShow extends React.Component {
 
   fetchBorrowRecords (props) {
     const { book: { data: book = {} } = {} } = props
-    this.props.fetchBRs({
-      bookID: book.id,
-      userIDs: book.borrowers
-        .map((borrower) => borrower.id)
-        .join(','),
-      status: '借阅中'
-    })
+    if (this.isBookBorrowed(props)) {
+      this.props.fetchBRs({
+        bookID: book.id,
+        userIDs: book.borrowers
+          .map((borrower) => borrower.id)
+          .join(','),
+        status: '借阅中'
+      })
+    } else {
+      this.props.clearBRs()
+    }
   }
 
   handleChange (event) {
@@ -102,14 +108,16 @@ export class BookShow extends React.Component {
   }
 
   render () {
-    const { book: { data: book }, borrowRecords, user, borrowBook } = this.props
+    const { book: { data: book },
+      borrowRecords, user, borrowBook, returnBook } = this.props
     console.log(book)
 
     return (
       <div>
         <div className={classes.info}>
           <div className={classes.mainInfo}>
-            <BookView {...{book, borrowRecords, user, borrowBook}} />
+            <BookView {...{
+              book, borrowRecords, user, borrowBook, returnBook}} />
           </div>
           <div className={classes.toolbar}>
             <VoteButton />

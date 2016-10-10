@@ -52,7 +52,8 @@ const mapActionCreators = (dispatch) => {
 
 const mapStateToProps = (state) => ({
   books: getTextFilteredBooks(state),
-  filter: state.booksFilter
+  filter: state.booksFilter,
+  user: state.user.user
 })
 
 export default connect(mapStateToProps, mapActionCreators)(HomeView)

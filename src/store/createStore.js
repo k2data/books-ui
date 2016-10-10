@@ -5,7 +5,7 @@ import filter from 'redux-storage-decorator-filter'
 import { routerMiddleware } from 'react-router-redux'
 import thunk from 'redux-thunk'
 import makeRootReducer from './reducers'
-import { RESPONSE_LOGIN, SET_TOKEN, LOGOUT } from './modules/user'
+import { RESPONSE_LOGIN, SET_TOKEN, LOGOUT, RECEIVE_USER } from './modules/user'
 
 export default (initialState = {}, history) => {
   // redux locale storage
@@ -16,7 +16,7 @@ export default (initialState = {}, history) => {
   // ======================================================
   const middleware = [thunk, routerMiddleware(history),
     createMiddleware(engine, [],
-      [ RESPONSE_LOGIN, SET_TOKEN, LOGOUT ])]
+      [ RESPONSE_LOGIN, SET_TOKEN, LOGOUT, RECEIVE_USER ])]
 
   // ======================================================
   // Store Enhancers

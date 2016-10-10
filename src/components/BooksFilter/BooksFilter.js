@@ -9,7 +9,8 @@ const Props = {
   updateFilterText: React.PropTypes.func,
   filterOwned: React.PropTypes.func,
   filterBorrowed: React.PropTypes.func,
-  showDeleteButton: React.PropTypes.func
+  showDeleteButton: React.PropTypes.func,
+  fetchBooks: React.PropTypes.func
 }
 
 export class BooksFilter extends React.Component {
@@ -25,10 +26,12 @@ export class BooksFilter extends React.Component {
 
   handleOwnedChange (e) {
     this.props.actions.filterOwned(e.target.checked)
+    this.props.fetchBooks()
   }
 
   handleBorrowedChange (e) {
     this.props.actions.filterBorrowed(e.target.checked)
+    this.props.fetchBooks()
   }
 
   handleShowDeleteBtnChange (e) {
