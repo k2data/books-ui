@@ -47,17 +47,20 @@ export function fetchBook (id) {
 
 export function postBook (book) {
   return (dispatch, getState) => {
-    const state = getState()
-    console.log(book)
+    const { user: {token, user} } = getState()
+
+    const ownedBook = Object.assign({}, book, {
+      ownerID: user.id
+    })
 
     return fetch(`${__API_URL__}/books`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${state.user.token}`
+        Authorization: `Bearer ${token}`
       },
-      body: JSON.stringify(book)
+      body: JSON.stringify(ownedBook)
     }).then((res) => {
       console.log(res)
     })
