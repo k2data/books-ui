@@ -4,7 +4,8 @@ import BookEdit from 'components/BookEdit'
 
 const Props = {
   book: React.PropTypes.object,
-  postBook: React.PropTypes.func
+  postBook: React.PropTypes.func,
+  push: React.PropTypes.func
 }
 
 export class NewBook extends React.Component {
@@ -18,6 +19,7 @@ export class NewBook extends React.Component {
 
   saveNewBook (book) {
     this.props.postBook(book)
+    this.props.push('/')
   }
 
   render () {

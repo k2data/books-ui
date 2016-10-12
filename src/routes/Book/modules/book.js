@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch'
+import { fetchBooks } from 'routes/Home/modules/books'
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -63,6 +64,7 @@ export function postBook (book) {
       body: JSON.stringify(ownedBook)
     }).then((res) => {
       console.log(res)
+      dispatch(fetchBooks())
     })
   }
 }
