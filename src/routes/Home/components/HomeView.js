@@ -1,7 +1,6 @@
 import React from 'react'
 import { Button } from 'antd'
 import BookItem from 'components/BookItem'
-import RightToolbarContainer from 'containers/RightToolbarContainer'
 import BooksFilter from 'components/BooksFilter'
 import classes from './HomeView.scss'
 
@@ -42,9 +41,6 @@ export class HomeView extends React.Component {
 
     return (
       <div>
-        <div className={classes.rightToolbar}>
-          <RightToolbarContainer />
-        </div>
         <BooksFilter {...{filter, actions: this.props.filterActions, updateFilterText, fetchBooks}} />
         <br />
         <div>

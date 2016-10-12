@@ -140,10 +140,6 @@ export class BookShow extends React.Component {
               <p>这里是图书内容区域，请在这里输入图书的内容简介</p>
             </TabPanel>
             <TabPanel className={classes.tabPanel}>
-              <h3>出版信息</h3>
-              <p>这里是出版信息区域，请在这里输入图书的出版信息</p>
-            </TabPanel>
-            <TabPanel className={classes.tabPanel}>
               <h3>借阅记录</h3>
               <p>这里是借阅记录区域，请在这里输入图书的借阅记录</p>
             </TabPanel>
