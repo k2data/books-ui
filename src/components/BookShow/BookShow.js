@@ -28,6 +28,7 @@ export class BookShow extends React.Component {
     super(props)
     this.state = { showBookEditDiv: false }
 
+    this.getTitle = this.getTitle.bind(this)
     this.integrateDiscourse = this.integrateDiscourse.bind(this)
     this.integrateDisqus = this.integrateDisqus.bind(this)
     this.updateDocTitle = this.updateDocTitle.bind(this)
@@ -43,10 +44,10 @@ export class BookShow extends React.Component {
   componentDidMount () {
     const bookId = this.props.routeParams.bookId
     this.props.fetchBook(bookId)
-    // this.integrateDiscourse(bookId)
-    this.integrateDisqus(bookId)
 
     this.updateDocTitle()
+    this.integrateDiscourse()
+    // this.integrateDisqus()
   }
 
   componentWillReceiveProps (nextProps) {
@@ -57,46 +58,64 @@ export class BookShow extends React.Component {
 
   componentDidUpdate () {
     this.updateDocTitle()
+    this.integrateDiscourse()
+    // this.integrateDisqus()
   }
 
   componentWillUnmount () {
     this.props.clearBook()
     document.title = 'K2 books'
+    const script = document.querySelector(`script[src="${window.DiscourseEmbed.discourseUrl}javascripts/embed.js"]`)
+    script && script.remove()
+  }
+
+  getTitle () {
+    const { name } = this.props.book.data
+    if (!name) {
+      return ''
+    } else {
+      return `K2 books--${name}`
+    }
   }
 
   updateDocTitle () {
-    const { name } = this.props.book.data
-    if (!name) { return }
+    const title = this.getTitle()
+    if (!title) { return }
 
-    document.title = `K2 books--${name}`
+    document.title = title
   }
 
-  integrateDiscourse (id) {
-    console.log('hello, comments:', id)
-    console.log(document.querySelector('#discourse-comments'))
-    if (!id) return
+  integrateDiscourse () {
+    const { id, name } = this.props.book.data
 
-    window.DiscourseEmbed = { discourseUrl: 'http://10.1.10.17/',
+    if (!id || !name) return
+
+    window.DiscourseEmbed = {
+      discourseUrl: 'http://10.1.10.17/',
       discourseEmbedUrl: `http://10.1.10.17:10060/books/${id}`
     }
 
-    let d = document.createElement('script')
-    d.type = 'text/javascript'
-    d.async = true
-    d.src = window.DiscourseEmbed.discourseUrl + 'javascripts/embed.js'
+    let d = document.querySelector(`script[src="${window.DiscourseEmbed.discourseUrl}javascripts/embed.js"]`)
 
-    const container = document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]
-    container.appendChild(d)
+    if (!d) {
+      d = document.createElement('script')
+      d.type = 'text/javascript'
+      d.async = true
+      d.src = window.DiscourseEmbed.discourseUrl + 'javascripts/embed.js'
+      const container = document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]
+      container.appendChild(d)
+    }
   }
 
-  integrateDisqus (id) {
-    console.log('hello, comments:', id)
-    console.log(document.querySelector('#disqus_thread'))
-    if (!id) return
+  integrateDisqus () {
+    const { id } = this.props.book.data
+    const title = this.getTitle()
+    if (!id || !title) return
 
     window['disqus_config'] = function () {
       this.page.url = 'http://10.1.10.17:3020/books/' + id
       this.page.identifier = id
+      this.page.title = title
     }
 
     const s = document.createElement('script')
@@ -183,10 +202,10 @@ export class BookShow extends React.Component {
           <Tabs defaultActiveKey='comments'>
             <TabPane tab={<span><Icon type='message' />评论</span>} key='comments'>
               {
-                // <div id='discourse-comments' style={{height: '300px'}}></div>
+                <div id='discourse-comments' style={{height: '300px'}}></div>
               }
               {
-                <div id='disqus_thread'></div>
+                // <div id='disqus_thread'></div>
               }
             </TabPane>
             <TabPane tab={<span><Icon type='file-text' />图书内容</span>} key='content'>
