@@ -40,7 +40,6 @@ export function fetchBook (id) {
       }})
       .then((res) => res.json())
       .then((json) => {
-        console.log(json)
         return dispatch(receiveBook(json))
       })
   }
@@ -63,7 +62,6 @@ export function postBook (book) {
       },
       body: JSON.stringify(ownedBook)
     }).then((res) => {
-      console.log(res)
       dispatch(fetchBooks())
     })
   }

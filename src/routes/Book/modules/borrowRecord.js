@@ -81,7 +81,6 @@ export function fetchBRs (params) {
   return (dispatch, getState) => {
     const state = getState()
     const paramsStr = queryParams2Str(params)
-    console.log(paramsStr)
     dispatch(requestBRs())
     return fetch(`${__API_URL__}/borrow-records?${paramsStr}`, {
       headers: {
@@ -89,7 +88,6 @@ export function fetchBRs (params) {
       }})
       .then((res) => res.json())
       .then((json) => {
-        console.log('hello:', json.length)
         return dispatch(receiveBRs(json))
       })
   }

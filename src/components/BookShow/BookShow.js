@@ -1,10 +1,12 @@
 import React from 'react'
 import update from 'react-addons-update'
 import R from 'ramda'
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
+import { Tabs, Icon } from 'antd'
 import VoteButton from 'components/VoteButton'
 import BookView from 'components/BookView'
 import classes from './BookShow.scss'
+
+const TabPane = Tabs.TabPane
 
 const Props = {
   book: React.PropTypes.object,
@@ -26,6 +28,9 @@ export class BookShow extends React.Component {
     super(props)
     this.state = { showBookEditDiv: false }
 
+    this.integrateDiscourse = this.integrateDiscourse.bind(this)
+    this.integrateDisqus = this.integrateDisqus.bind(this)
+    this.updateDocTitle = this.updateDocTitle.bind(this)
     this.isBookChanged = this.isBookChanged.bind(this)
     this.isBookBorrowed = this.isBookBorrowed.bind(this)
     this.fetchBorrowRecords = this.fetchBorrowRecords.bind(this)
@@ -36,7 +41,12 @@ export class BookShow extends React.Component {
   }
 
   componentDidMount () {
-    this.props.fetchBook(this.props.routeParams.bookId)
+    const bookId = this.props.routeParams.bookId
+    this.props.fetchBook(bookId)
+    // this.integrateDiscourse(bookId)
+    this.integrateDisqus(bookId)
+
+    this.updateDocTitle()
   }
 
   componentWillReceiveProps (nextProps) {
@@ -45,8 +55,55 @@ export class BookShow extends React.Component {
     }
   }
 
+  componentDidUpdate () {
+    this.updateDocTitle()
+  }
+
   componentWillUnmount () {
     this.props.clearBook()
+    document.title = 'K2 books'
+  }
+
+  updateDocTitle () {
+    const { name } = this.props.book.data
+    if (!name) { return }
+
+    document.title = `K2 books--${name}`
+  }
+
+  integrateDiscourse (id) {
+    console.log('hello, comments:', id)
+    console.log(document.querySelector('#discourse-comments'))
+    if (!id) return
+
+    window.DiscourseEmbed = { discourseUrl: 'http://10.1.10.17/',
+      discourseEmbedUrl: `http://10.1.10.17:10060/books/${id}`
+    }
+
+    let d = document.createElement('script')
+    d.type = 'text/javascript'
+    d.async = true
+    d.src = window.DiscourseEmbed.discourseUrl + 'javascripts/embed.js'
+
+    const container = document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]
+    container.appendChild(d)
+  }
+
+  integrateDisqus (id) {
+    console.log('hello, comments:', id)
+    console.log(document.querySelector('#disqus_thread'))
+    if (!id) return
+
+    window['disqus_config'] = function () {
+      this.page.url = 'http://10.1.10.17:3020/books/' + id
+      this.page.identifier = id
+    }
+
+    const s = document.createElement('script')
+    s.src = '//k2-books.disqus.com/embed.js'
+    s.setAttribute('data-timestamp', +new Date())
+    const container = document.head || document.body
+    container.appendChild(s)
   }
 
   isBookChanged (nextProps) {
@@ -110,7 +167,6 @@ export class BookShow extends React.Component {
   render () {
     const { book: { data: book },
       borrowRecords, user, borrowBook, returnBook } = this.props
-    console.log(book)
 
     return (
       <div>
@@ -124,25 +180,21 @@ export class BookShow extends React.Component {
           </div>
         </div>
         <div className={classes.moreInfo}>
-          <Tabs className={classes.tab} onSelect={this.handleSelect} selectedIndex={2}>
-            <TabList className={classes.tabList}>
-              <Tab>读者评论</Tab>
-              <Tab>图书内容</Tab>
-              <Tab>出版信息</Tab>
-              <Tab>借阅记录</Tab>
-            </TabList>
-            <TabPanel className={classes.tabPanel}>
-              <h3>读者评论</h3>
-              <p>这里是读者评论区域，请在这里留下你的评论</p>
-            </TabPanel>
-            <TabPanel className={classes.tabPanel}>
-              <h3>图书内容</h3>
-              <p>这里是图书内容区域，请在这里输入图书的内容简介</p>
-            </TabPanel>
-            <TabPanel className={classes.tabPanel}>
-              <h3>借阅记录</h3>
-              <p>这里是借阅记录区域，请在这里输入图书的借阅记录</p>
-            </TabPanel>
+          <Tabs defaultActiveKey='comments'>
+            <TabPane tab={<span><Icon type='message' />评论</span>} key='comments'>
+              {
+                // <div id='discourse-comments' style={{height: '300px'}}></div>
+              }
+              {
+                <div id='disqus_thread'></div>
+              }
+            </TabPane>
+            <TabPane tab={<span><Icon type='file-text' />图书内容</span>} key='content'>
+              图书内容
+            </TabPane>
+            <TabPane tab={<span><Icon type='bars' />借阅记录</span>} key='borrow-records'>
+              借阅记录
+            </TabPane>
           </Tabs>
         </div>
       </div>

@@ -24,10 +24,7 @@ export class BookView extends React.Component {
       return false
     }
 
-    console.log(user)
-    console.log(borrowRecords)
     const index = R.findIndex(R.propEq('userID', user.id))(borrowRecords)
-    console.log('index', index)
 
     return index >= 0
   }
