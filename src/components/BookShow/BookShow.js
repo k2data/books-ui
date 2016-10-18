@@ -90,9 +90,11 @@ export class BookShow extends React.Component {
 
     if (!id || !name) return
 
+    // const href = window.location.href
     window.DiscourseEmbed = {
       discourseUrl: 'http://10.1.10.17/',
       discourseEmbedUrl: `http://10.1.10.17:10060/books/${id}`
+      // discourseEmbedUrl: href.substring(0, href.indexOf('?'))
     }
 
     let d = document.querySelector(`script[src="${window.DiscourseEmbed.discourseUrl}javascripts/embed.js"]`)
@@ -112,8 +114,10 @@ export class BookShow extends React.Component {
     const title = this.getTitle()
     if (!id || !title) return
 
+    // const href = window.location.href
     window['disqus_config'] = function () {
-      this.page.url = 'http://10.1.10.17:3020/books/' + id
+      // this.page.url = href.substring(0, href.indexOf('?'))
+      this.page.url = 'http://10.1.10.17:10060/books/' + id
       this.page.identifier = id
       this.page.title = title
     }
