@@ -1,12 +1,33 @@
 import React from 'react'
 import update from 'react-addons-update'
 import R from 'ramda'
-import { Tabs, Icon } from 'antd'
+import moment from 'moment'
+import { Table, Tabs, Icon } from 'antd'
 import VoteButton from 'components/VoteButton'
 import BookView from 'components/BookView'
 import classes from './BookShow.scss'
 
 const TabPane = Tabs.TabPane
+
+const columns = [{
+  title: '借书人',
+  dataIndex: 'user.name',
+  key: 'borrower'
+}, {
+  title: '状态',
+  dataIndex: 'status',
+  key: 'status'
+}, {
+  title: '借书时间',
+  dataIndex: 'startAt',
+  key: 'startAt',
+  render: text => moment(new Date(text)).format('YYYY/MM/DD')
+}, {
+  title: '还书时间',
+  dataIndex: 'endAt',
+  key: 'endAt',
+  render: text => moment(new Date(text)).format('YYYY/MM/DD')
+}]
 
 const Props = {
   book: React.PropTypes.object,
@@ -42,8 +63,9 @@ export class BookShow extends React.Component {
   }
 
   componentDidMount () {
-    const bookId = this.props.routeParams.bookId
-    this.props.fetchBook(bookId)
+    const bookID = this.props.routeParams.bookId
+    this.props.fetchBook(bookID)
+    this.props.fetchBRs({bookID})
 
     this.updateDocTitle()
     this.integrateDiscourse()
@@ -65,7 +87,7 @@ export class BookShow extends React.Component {
   componentWillUnmount () {
     this.props.clearBook()
     document.title = 'K2 books'
-    const script = document.querySelector(`script[src="${window.DiscourseEmbed.discourseUrl}javascripts/embed.js"]`)
+    const script = document.querySelector(`script[src='${window.DiscourseEmbed.discourseUrl}javascripts/embed.js']`)
     script && script.remove()
   }
 
@@ -97,7 +119,7 @@ export class BookShow extends React.Component {
       // discourseEmbedUrl: href.substring(0, href.indexOf('?'))
     }
 
-    let d = document.querySelector(`script[src="${window.DiscourseEmbed.discourseUrl}javascripts/embed.js"]`)
+    let d = document.querySelector(`script[src='${window.DiscourseEmbed.discourseUrl}javascripts/embed.js']`)
 
     if (!d) {
       d = document.createElement('script')
@@ -216,7 +238,7 @@ export class BookShow extends React.Component {
               图书内容
             </TabPane>
             <TabPane tab={<span><Icon type='bars' />借阅记录</span>} key='borrow-records'>
-              借阅记录
+              <Table columns={columns} dataSource={borrowRecords.data} />
             </TabPane>
           </Tabs>
         </div>
