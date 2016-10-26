@@ -85,6 +85,12 @@ export function removeBook (id) {
       }
     }).then((json) => {
       console.log(json)
+      if (json.Error) {
+        return dispatch(push('/login'))
+      }
+    })
+    .catch((e) => {
+      console.log(e)
     })
   }
 }

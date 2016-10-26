@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch'
+import { push } from 'react-router-redux'
 import { fetchBooks } from 'routes/Home/modules/books'
 // ------------------------------------
 // Constants
@@ -40,6 +41,9 @@ export function fetchBook (id) {
       }})
       .then((res) => res.json())
       .then((json) => {
+        if (json.Error) {
+          return dispatch(push('/login'))
+        }
         return dispatch(receiveBook(json))
       })
   }
@@ -61,9 +65,16 @@ export function postBook (book) {
         Authorization: `Bearer ${token}`
       },
       body: JSON.stringify(ownedBook)
-    }).then((res) => {
-      dispatch(fetchBooks())
-    })
+    }).then((res) => res.json())
+      .then((json) => {
+        if (json.Error) {
+          return dispatch(push('/login'))
+        }
+        dispatch(fetchBooks())
+      })
+      .catch((e) => {
+        console.log(e)
+      })
   }
 }
 
@@ -80,7 +91,13 @@ export function borrowBook () {
       body: JSON.stringify({user, book})
     }).then((res) => res.json())
       .then((json) => {
+        if (json.Error) {
+          return dispatch(push('/login'))
+        }
         return dispatch(receiveBook(json))
+      })
+      .catch((e) => {
+        console.log(e)
       })
   }
 }
@@ -98,7 +115,13 @@ export function returnBook () {
       body: JSON.stringify({user, book})
     }).then((res) => res.json())
       .then((json) => {
+        if (json.Error) {
+          return dispatch(push('/login'))
+        }
         return dispatch(receiveBook(json))
+      })
+      .catch((e) => {
+        console.log(e)
       })
   }
 }

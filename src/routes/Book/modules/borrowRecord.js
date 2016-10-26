@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch'
+import { push } from 'react-router-redux'
 import update from 'react-addons-update'
 import { queryParams2Str } from 'store/utils/fetch'
 // ------------------------------------
@@ -46,8 +47,14 @@ export function fetchBR (id) {
       }})
       .then((res) => res.json())
       .then((json) => {
-        console.log(json)
+        if (json.Error) {
+          dispatch(invalidBR())
+          return dispatch(push('/login'))
+        }
         return dispatch(receiveBR(json))
+      })
+      .catch((e) => {
+        console.error(e)
       })
   }
 }
@@ -88,7 +95,14 @@ export function fetchBRs (params) {
       }})
       .then((res) => res.json())
       .then((json) => {
+        if (json.Error) {
+          dispatch(invalidBRs())
+          return dispatch(push('/login'))
+        }
         return dispatch(receiveBRs(json))
+      })
+      .catch((e) => {
+        console.error(e)
       })
   }
 }
