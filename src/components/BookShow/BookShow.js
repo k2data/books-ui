@@ -87,6 +87,7 @@ export class BookShow extends React.Component {
   componentWillUnmount () {
     this.props.clearBook()
     document.title = 'K2 books'
+    if (!window.DiscourseEmbed) { return }
     const script = document.querySelector(`script[src='${window.DiscourseEmbed.discourseUrl}javascripts/embed.js']`)
     script && script.remove()
   }
