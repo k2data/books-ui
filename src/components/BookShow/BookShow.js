@@ -58,7 +58,6 @@ export class BookShow extends React.Component {
     this.fetchBorrowRecords = this.fetchBorrowRecords.bind(this)
     this.convert = this.convert.bind(this)
     this.handleChange = this.handleChange.bind(this)
-    this.handleRenewBook = this.handleRenewBook.bind(this)
     this.handleRemoveBook = this.handleRemoveBook.bind(this)
   }
 
@@ -166,11 +165,11 @@ export class BookShow extends React.Component {
     const { book: { data: book = {} } = {} } = props
     if (this.isBookBorrowed(props)) {
       this.props.fetchBRs({
-        bookID: book.id,
-        userIDs: book.borrowers
-          .map((borrower) => borrower.id)
-          .join(','),
-        status: '借阅中'
+        bookID: book.id
+        // userIDs: book.borrowers
+        //   .map((borrower) => borrower.id)
+        //   .join(','),
+        // status: '借阅中'
       })
     } else {
       this.props.clearBRs()
@@ -185,20 +184,6 @@ export class BookShow extends React.Component {
 
   handleRemoveBook () {
     this.props.removeBook(this.props.book.data.id)
-  }
-
-  handleRenewBook () {
-    fetch(`${__API_URL__}/books/${this.state.book.id}`, {
-      method: 'PUT',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.' +
-        'eyJleHAiOjE0NzE0NjM4NDQsImlkIjoiYWRtaW4iLCJvcmlnX2lhdCI6MTQ3' +
-        'MTQyMDY0NH0.A721xVtnqAUQ-2Ws-yCAVEZpGw2pEom3UghkDZqr9p0'
-      },
-      body: JSON.stringify(this.state.book)
-    })
   }
 
   convert (value, name) {
