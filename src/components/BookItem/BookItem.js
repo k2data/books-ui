@@ -40,13 +40,17 @@ export class BookItem extends React.Component {
               : false
             }
           </p>
-          {borrowers && borrowers.length > 0
-            ? <p>
-              [借]<em>{borrowers.map((borrower) => borrower.name)
-                .join(', ')}</em>
-            </p>
-            : false
-          }
+          <p>
+            [属]<em>{book.owner.name}</em>
+            &nbsp;&nbsp;
+            {borrowers && borrowers.length > 0
+              ? <span>
+                [借]<em>{borrowers.map((borrower) => borrower.name)
+                  .join(', ')}</em>
+              </span>
+              : false
+            }
+          </p>
           <p>{book.description || '没有描述信息...'}</p>
           <p className={classes.tags}>
             <span className={classes.tag}>Tag</span>
