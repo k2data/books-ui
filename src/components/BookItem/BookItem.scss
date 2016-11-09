@@ -9,7 +9,7 @@
   .info { flex: 2 0px; }
   .img { order: 1; }
   .info { order: 2; }
-  .rate { order: 3; }
+  .tips { order: 3; }
 }
 
 .img{
@@ -45,18 +45,34 @@
   }
 }
 
-.rate{
+.tips {
   float: right;
   text-align: center;
   padding-top: 8px;
+  margin-right: 30px;
 
   p + p {
     margin-top: 12px;
   }
 }
 
+.rate {
+  font-size: 10px;
+}
+
 .comment, .read, .remain {
-  border: 1px solid #666;
-  border-radius: 50%;
-  padding: 5px;
+  // border: 1px solid #666;
+  // border-radius: 50%;
+  // padding: 2px;
+}
+
+.badge-container {
+  position: relative;
+}
+
+.badge {
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 20px;
 }

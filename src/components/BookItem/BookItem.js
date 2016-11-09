@@ -53,16 +53,32 @@ export class BookItem extends React.Component {
           </p>
           <p>{book.description || '没有描述信息...'}</p>
           <p className={classes.tags}>
-            <span className={classes.tag}>Tag</span>
-            <span className={classes.tag}>Tag</span>
-            <span className={classes.tag}>Tag</span>
+          {
+            // <span className={classes.tag}>Tag</span>
+            // <span className={classes.tag}>Tag</span>
+            // <span className={classes.tag}>Tag</span>
+          }
           </p>
         </div>
-        <div className={classes.rate}>
-          <p>{book.rate}<i className='fa fa-heart-o fa-lg' aria-hidden='true' /></p>
-          <p>{book.comment}<span className={classes.comment}>评</span></p>
-          <p>{book.read}<span className={classes.read}>阅</span></p>
-          <p>{book.remain}<span className={classes.remain}>余</span></p>
+        <div className={classes.tips}>
+          <p className={classes['badge-container']}>
+            {book.rate}
+            <span className={classes.rate}>
+              <i className='fa fa-heart-o fa-lg' aria-hidden='true' />
+            </span>
+          </p>
+          <p className={classes['badge-container']}>
+            {book.comment}<span className={classes.comment}>评</span>
+          </p>
+          <p className={classes['badge-container']}>
+            {book.read}<span className={classes.read}>阅</span>
+          </p>
+          <p className={classes['badge-container']}>
+            <span className={classes.remain}>余</span>
+            <span className={classes.badge}>
+              {book.quantity - (borrowers ? borrowers.length : 0)}
+            </span>
+          </p>
         </div>
       </div>
     )
