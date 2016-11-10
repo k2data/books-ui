@@ -12,7 +12,11 @@ export const ManagementToolbar = (props) => (
       </Link>
     </div>
     <div className={classes.right}>
-      <Link to='/books/creating'><Button type='ghost'>新建</Button></Link>
+      {
+        props.user.name === 'admin'
+          ? <Link to='/books/creating'><Button type='ghost'>新建</Button></Link>
+          : false
+      }
       {
         props.user.token
           ? <Link to='/login'><Button type='ghost' onClick={props.logout}>登出</Button></Link>
