@@ -13,7 +13,7 @@ export const ManagementToolbar = (props) => (
     </div>
     <div className={classes.right}>
       {
-        props.user.name === 'admin'
+        props.user.user && props.user.user.name === 'admin'
           ? <Link to='/books/creating'><Button type='ghost'>新建</Button></Link>
           : false
       }
