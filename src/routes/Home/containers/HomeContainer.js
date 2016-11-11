@@ -16,7 +16,9 @@ const getTextFilteredBooks = createSelector(
   [ getFilterText, getBooks ],
   (filterText, books) => {
     return books.filter((book) => {
-      return JSON.stringify(book).indexOf(filterText) !== -1
+      return JSON.stringify(book)
+        .toLowerCase()
+        .indexOf(filterText.toLowerCase()) !== -1
     })
   }
 )
