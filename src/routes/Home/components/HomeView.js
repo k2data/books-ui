@@ -2,6 +2,7 @@ import React from 'react'
 import { Button } from 'antd'
 import BookItem from 'components/BookItem'
 import BooksFilter from 'components/BooksFilter'
+import BookTable from 'components/BookTable'
 import classes from './HomeView.scss'
 
 const Props = {
@@ -44,8 +45,8 @@ export class HomeView extends React.Component {
         <BooksFilter {...{filter, actions: this.props.filterActions, updateFilterText, fetchBooks}} />
         <br />
         <div>
-        {
-          books.map((book, index) => {
+        {filter.view === 'list'
+          ? books.map((book, index) => {
             return (
               <div key={index} className={classes.bookItem}>
                 {filter.showDeleteBtn && user.id === book.ownerID
@@ -59,8 +60,9 @@ export class HomeView extends React.Component {
                 }
                 <BookItem {...{book}} />
               </div>
-         )
+            )
           })
+          : <BookTable data={books} />
         }
         </div>
       </div>

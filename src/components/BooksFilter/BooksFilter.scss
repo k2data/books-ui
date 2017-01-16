@@ -1,9 +1,15 @@
-.BooksFilter {
+.filter {
+
   input {
     margin-bottom: 10px;
   }
 
   button + button {
     margin-left: 10px;
+  }
+
+  .oprs {
+    height: 26px;
+    line-height: 26px;
   }
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Checkbox } from 'antd'
 import SearchBar from 'components/SearchBar'
+import ViewSelector from 'components/ViewSelector'
 import classes from './BooksFilter.scss'
 
 const Props = {
@@ -39,15 +40,21 @@ export class BooksFilter extends React.Component {
   }
 
   render () {
-    const { filter, updateFilterText } = this.props
-    const { owned, borrowed, showDeleteBtn } = filter
+    const { filter, updateFilterText, actions } = this.props
+    const { owned, borrowed, showDeleteBtn, view } = filter
+    const { changeView } = actions
 
     return (
-      <div className={classes['BooksFilter']}>
+      <div className={classes['filter']}>
         <SearchBar {...{filter, updateFilterText}} />
-        <Checkbox checked={owned} onChange={this.handleOwnedChange}>我自己的书</Checkbox>
-        <Checkbox checked={borrowed} onChange={this.handleBorrowedChange}>我借阅的书</Checkbox>
-        <Checkbox checked={showDeleteBtn} onChange={this.handleShowDeleteBtnChange}>编辑</Checkbox>
+        <div className={classes['oprs']}>
+          <Checkbox checked={owned} onChange={this.handleOwnedChange}>我自己的书</Checkbox>
+          <Checkbox checked={borrowed} onChange={this.handleBorrowedChange}>我借阅的书</Checkbox>
+          <Checkbox checked={showDeleteBtn} onChange={this.handleShowDeleteBtnChange}>编辑</Checkbox>
+          <div style={{ float: 'right' }}>
+            <ViewSelector view={view} onChange={changeView} />
+          </div>
+        </div>
       </div>
     )
   }

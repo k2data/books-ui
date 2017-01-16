@@ -38,7 +38,7 @@ export class BookTable extends React.Component {
 }
 
 BookTable.propTypes = {
-  data: React.PropTypes.object
+  data: React.PropTypes.array
 }
 
 export default BookTable

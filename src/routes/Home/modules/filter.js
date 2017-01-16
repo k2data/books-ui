@@ -2,6 +2,8 @@ export const UPDATE_FILTER_TEXT = 'UPDATE_FILTER_TEXT'
 export const FILTER_OWNED = 'FILTER_OWNED'
 export const FILTER_BORROWED = 'FILTER_BORROWED'
 export const SHOW_DELETE_BUTTON = 'SHOW_DELETE_BUTTON'
+export const CHANGE_VIEW = 'CHANGE_VIEW'
+export const VIEWS = ['list', 'table']
 
 export function updateFilterText (value = '') {
   return {
@@ -31,8 +33,15 @@ export function showDeleteButton (value) {
   }
 }
 
+export function changeView (value) {
+  return {
+    type: CHANGE_VIEW,
+    value
+  }
+}
+
 export const actions = {
-  updateFilterText, filterOwned, filterBorrowed, showDeleteButton
+  updateFilterText, filterOwned, filterBorrowed, showDeleteButton, changeView
 }
 
 const ACTION_HANDLERS = {
@@ -55,6 +64,11 @@ const ACTION_HANDLERS = {
     return Object.assign({}, state, {
       showDeleteBtn: action.value
     })
+  },
+  [CHANGE_VIEW]: (state, action) => {
+    return Object.assign({}, state, {
+      view: action.value
+    })
   }
 }
 
@@ -62,7 +76,8 @@ const initialState = {
   text: '',
   owned: false,
   borrowed: false,
-  showDeleteBtn: false
+  showDeleteBtn: false,
+  view: VIEWS[0]
 }
 
 export default function filter (state = initialState, action) {
