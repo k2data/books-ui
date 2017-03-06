@@ -10,7 +10,11 @@ const mapActionCreators = {
 
 const mapStateToProps = (state) => ({
   book: state.book,
-  borrowRecords: state.borrowRecords,
+  borrowRecords: state.borrowRecords.sort((br1, br2) => {
+    const s1 = new Date(br1.startAt).getTime()
+    const s2 = new Date(br2.startAt).getTime()
+    return s2 - s1
+  }),
   user: state.user.user
 })
 

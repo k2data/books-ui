@@ -229,7 +229,7 @@ export class BookShow extends React.Component {
           </Tabs>
         </div>
       </div>
-     )
+    )
   }
 }
 
