@@ -9,14 +9,25 @@ type Props = {
   borrowRecords: React.PropTypes.object,
   user: React.PropTypes.object,
   borrowBook: React.PropTypes.func,
-  returnBook: React.PropTypes.func
+  returnBook: React.PropTypes.func,
+  removeBook: React.PropTypes.func,
 }
 
 export class BookView extends React.Component {
   props: Props
 
+  constructor (props) {
+    super(props)
+    this.handleRemoveBook = this.handleRemoveBook.bind(this)
+  }
+
   handleSelect (index, last) {
     console.log('Selected tab: ' + index + ', Last tab: ' + last)
+  }
+
+  handleRemoveBook () {
+    console.log(this.props.book.id)
+    this.props.removeBook(this.props.book.id)
   }
 
   isLoginUserBorrowing (user, borrowRecords) {
@@ -91,6 +102,11 @@ export class BookView extends React.Component {
               onClick={this.props.borrowBook}>
               借书
             </Button>
+          }
+          {
+            this.props.user.name === 'admin'
+              ? <Button type='ghost' onClick={this.handleRemoveBook}>删除</Button>
+              : false
           }
           </div>
         </div>

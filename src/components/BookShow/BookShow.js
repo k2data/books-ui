@@ -1,5 +1,5 @@
 import React from 'react'
-import update from 'react-addons-update'
+// import update from 'react-addons-update'
 import R from 'ramda'
 import moment from 'moment'
 import { Table, Tabs, Icon } from 'antd'
@@ -57,7 +57,7 @@ export class BookShow extends React.Component {
     this.isBookBorrowed = this.isBookBorrowed.bind(this)
     this.fetchBorrowRecords = this.fetchBorrowRecords.bind(this)
     this.convert = this.convert.bind(this)
-    this.handleChange = this.handleChange.bind(this)
+    // this.handleChange = this.handleChange.bind(this)
     this.handleRemoveBook = this.handleRemoveBook.bind(this)
   }
 
@@ -176,11 +176,11 @@ export class BookShow extends React.Component {
     }
   }
 
-  handleChange (event) {
-    this.setState({book: update(this.state.book, {
-      [event.target.name]: {$set: this.convert(event.target.value, event.target.name)}
-    })})
-  }
+  // handleChange (event) {
+  //   this.setState({book: update(this.state.book, {
+  //     [event.target.name]: {$set: this.convert(event.target.value, event.target.name)}
+  //   })})
+  // }
 
   handleRemoveBook () {
     this.props.removeBook(this.props.book.data.id)
@@ -197,14 +197,14 @@ export class BookShow extends React.Component {
 
   render () {
     const { book: { data: book },
-      borrowRecords, user, borrowBook, returnBook } = this.props
+      borrowRecords, user, borrowBook, returnBook, removeBook } = this.props
 
     return (
       <div>
         <div className={classes.info}>
           <div className={classes.mainInfo}>
             <BookView {...{
-              book, borrowRecords, user, borrowBook, returnBook}} />
+              book, borrowRecords, user, borrowBook, returnBook, removeBook}} />
           </div>
           <div className={classes.toolbar}>
             <VoteButton />

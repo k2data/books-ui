@@ -8,9 +8,12 @@ const mapActionCreators = {
   fetchBook, clearBook, borrowBook, returnBook, removeBook, fetchBRs, clearBRs
 }
 
+// state.borrowRecords.sort is not a functin
+// state.borrowRecords  ===> state.borrowRecords.data
+
 const mapStateToProps = (state) => ({
   book: state.book,
-  borrowRecords: state.borrowRecords.sort((br1, br2) => {
+  borrowRecords: state.borrowRecords.data.sort((br1, br2) => {
     const s1 = new Date(br1.startAt).getTime()
     const s2 = new Date(br2.startAt).getTime()
     return s2 - s1
