@@ -51,6 +51,13 @@ export class BooksFilter extends React.Component {
           <Checkbox checked={owned} onChange={this.handleOwnedChange}>我自己的书</Checkbox>
           <Checkbox checked={borrowed} onChange={this.handleBorrowedChange}>我借阅的书</Checkbox>
           <Checkbox checked={showDeleteBtn} onChange={this.handleShowDeleteBtnChange}>编辑</Checkbox>
+
+          {/* Do not show edit-button for users
+            ==============================================================
+            this.props.user.user && this.props.user.user.name === 'admin'
+              ? <Checkbox checked={showDeleteBtn} onChange={this.handleShowDeleteBtnChange}>编辑</Checkbox>
+              : false
+          */}
           <div style={{ float: 'right' }}>
             <ViewSelector view={view} onChange={changeView} />
           </div>
