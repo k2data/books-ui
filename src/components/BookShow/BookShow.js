@@ -224,7 +224,7 @@ export class BookShow extends React.Component {
               图书内容
             </TabPane>
             <TabPane tab={<span><Icon type='bars' />借阅记录</span>} key='borrow-records'>
-              <Table columns={columns} dataSource={borrowRecords.data} />
+              <Table columns={columns} dataSource={borrowRecords} />
             </TabPane>
           </Tabs>
         </div>

@@ -42,8 +42,9 @@ export class BookView extends React.Component {
 
   render () {
     const { book = {}, borrowRecords = {}, user = {} } = this.props
-    let { data: brList = [] } = borrowRecords
-    brList = brList.filter((br) => br.status === '借阅中')
+    // let { data: brList = [] } = borrowRecords
+    // brList = brList.filter((br) => br.status === '借阅中')
+    let brList = borrowRecords.filter((br) => br.status === '借阅中')
     const borrowersCount = book.borrowers ? book.borrowers.length : 0
     const bookLeft = (book.quantity || 0) - borrowersCount
 
