@@ -104,11 +104,11 @@ export class BookView extends React.Component {
               借书
             </Button>
           }
-          {
+          {/*
             this.props.user.name === 'admin'
               ? <Button type='ghost' onClick={this.handleRemoveBook}>删除</Button>
               : false
-          }
+          */}
           </div>
         </div>
       </div>

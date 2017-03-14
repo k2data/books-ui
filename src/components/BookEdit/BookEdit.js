@@ -8,7 +8,7 @@ const format = 'YYYY-MM-DD'
 
 // modify book:Object   for test by kk
 type Props = {
-  book: React.PropTypes.Object.isRequired,
+  book: Object,
   form: Object,
   handleChange: Function,
   getFieldDecorator: Function,
@@ -28,7 +28,7 @@ export class BookEdit extends React.Component {
   handleSubmit (e) {
     e.preventDefault()
     const book = this.props.form.getFieldsValue()
-    console.log(book)
+    // console.log(book)
     this.props.save(book)
   }
 

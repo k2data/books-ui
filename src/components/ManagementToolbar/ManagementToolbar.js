@@ -22,11 +22,7 @@ export const ManagementToolbar = (props) => (
           ? <Link to='/login'><Button type='ghost' onClick={props.logout}>登出</Button></Link>
           : <Link to='/login'><Button type='ghost'>登录</Button></Link>
       }
-      {
-        props.user.token
-        ? <Link to='/'><Button type='ghost'>kk-Test</Button></Link>
-        : false
-      }
+
     </div>
   </div>
 )
