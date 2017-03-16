@@ -42,7 +42,8 @@ export class HomeView extends React.Component {
 
     return (
       <div>
-        <BooksFilter {...{filter, actions: this.props.filterActions, updateFilterText, fetchBooks}} />
+      {/* add user param by kk */}
+        <BooksFilter {...{filter, actions: this.props.filterActions, updateFilterText, fetchBooks, user}} />
         <br />
         <div>
         {filter.view === 'list'

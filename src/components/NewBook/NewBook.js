@@ -27,7 +27,7 @@ export class NewBook extends React.Component {
       <div>
         <BookEdit {...{book: {}, save: this.saveNewBook}} />
       </div>
-     )
+    )
   }
 }
 

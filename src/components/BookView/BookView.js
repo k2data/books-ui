@@ -9,14 +9,25 @@ type Props = {
   borrowRecords: React.PropTypes.object,
   user: React.PropTypes.object,
   borrowBook: React.PropTypes.func,
-  returnBook: React.PropTypes.func
+  returnBook: React.PropTypes.func,
+  removeBook: React.PropTypes.func,
 }
 
 export class BookView extends React.Component {
   props: Props
 
+  constructor (props) {
+    super(props)
+    this.handleRemoveBook = this.handleRemoveBook.bind(this)
+  }
+
   handleSelect (index, last) {
     console.log('Selected tab: ' + index + ', Last tab: ' + last)
+  }
+
+  handleRemoveBook () {
+    console.log(this.props.book.id)
+    this.props.removeBook(this.props.book.id)
   }
 
   isLoginUserBorrowing (user, borrowRecords) {
@@ -31,8 +42,9 @@ export class BookView extends React.Component {
 
   render () {
     const { book = {}, borrowRecords = {}, user = {} } = this.props
-    let { data: brList = [] } = borrowRecords
-    brList = brList.filter((br) => br.status === '借阅中')
+    // let { data: brList = [] } = borrowRecords
+    // brList = brList.filter((br) => br.status === '借阅中')
+    let brList = borrowRecords.filter((br) => br.status === '借阅中')
     const borrowersCount = book.borrowers ? book.borrowers.length : 0
     const bookLeft = (book.quantity || 0) - borrowersCount
 
@@ -92,6 +104,11 @@ export class BookView extends React.Component {
               借书
             </Button>
           }
+          {/*
+            this.props.user.name === 'admin'
+              ? <Button type='ghost' onClick={this.handleRemoveBook}>删除</Button>
+              : false
+          */}
           </div>
         </div>
       </div>

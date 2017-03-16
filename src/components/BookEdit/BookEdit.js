@@ -6,6 +6,7 @@ import moment from 'moment'
 const FormItem = Form.Item
 const format = 'YYYY-MM-DD'
 
+// modify book:Object   for test by kk
 type Props = {
   book: Object,
   form: Object,
@@ -27,6 +28,7 @@ export class BookEdit extends React.Component {
   handleSubmit (e) {
     e.preventDefault()
     const book = this.props.form.getFieldsValue()
+    // console.log(book)
     this.props.save(book)
   }
 
