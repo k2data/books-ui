@@ -2,6 +2,7 @@ import React from 'react'
 import BookEdit from 'components/BookEdit'
 // import classes from './NewBook.scss'
 
+// Props.book 并没有使用，不需要传入
 const Props = {
   book: React.PropTypes.object,
   postBook: React.PropTypes.func,
