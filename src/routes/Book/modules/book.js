@@ -78,6 +78,32 @@ export function postBook (book) {
   }
 }
 
+// url要匹配到books/id  请求body为book
+
+export function pushBook (book, bookId) {
+  return (dispatch, getState) => {
+    const { user: {token} } = getState()
+    return fetch(`${__API_URL__}/books/${bookId}`, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(book)
+    }).then((res) => res.json())
+      .then((json) => {
+        if (json.Error) {
+          return dispatch(push('/login'))
+        }
+        dispatch(fetchBooks())
+      })
+      .catch((e) => {
+        console.log(e)
+      })
+  }
+}
+
 export function borrowBook () {
   return (dispatch, getState) => {
     const {user: { user, token }, book: { data: book }} = getState()

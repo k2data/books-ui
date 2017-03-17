@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button } from 'antd'
+import { Link } from 'react-router'
 import BookItem from 'components/BookItem'
 import BooksFilter from 'components/BooksFilter'
 import BookTable from 'components/BookTable'
@@ -42,7 +43,7 @@ export class HomeView extends React.Component {
 
     return (
       <div>
-      {/* add user param by kk */}
+
         <BooksFilter {...{filter, actions: this.props.filterActions, updateFilterText, fetchBooks, user}} />
         <br />
         <div>
@@ -52,6 +53,11 @@ export class HomeView extends React.Component {
               <div key={index} className={classes.bookItem}>
                 {filter.showDeleteBtn && user.id === book.ownerID
                   ? <div className={classes.deleteBtn}>
+                    <Link to='books/editing' query={{modifyBookId: book.id}} state={book}>
+                      <Button type='dashed'>
+                        编辑
+                      </Button>
+                    </Link>
                     <Button type='dashed'
                       onClick={this.handleRemoveBook(book.id)}>
                       删除

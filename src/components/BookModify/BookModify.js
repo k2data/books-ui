@@ -1,7 +1,6 @@
 import React from 'react'
 import { Form, Input, InputNumber, DatePicker, Button } from 'antd'
 import moment from 'moment'
-// import classes from './BookEdit.scss'
 
 const FormItem = Form.Item
 const format = 'YYYY-MM-DD'
@@ -9,9 +8,9 @@ const format = 'YYYY-MM-DD'
 const Props = {
   book: Object,
   form: Object,
-  handleChange: Function,
   getFieldDecorator: Function,
-  save: Function
+  modify: Function,
+  bookMessage: Object
 }
 
 export class BookEdit extends React.Component {
@@ -20,6 +19,8 @@ export class BookEdit extends React.Component {
   constructor (props) {
     super(props)
 
+    this.bookId = this.props.bookMessage.id
+
     this.handleSubmit = this.handleSubmit.bind(this)
     this.bookExists = this.bookExists.bind(this)
   }
@@ -27,8 +28,8 @@ export class BookEdit extends React.Component {
   handleSubmit (e) {
     e.preventDefault()
     const book = this.props.form.getFieldsValue()
-    console.log('add a new book:', book)
-    this.props.save(book)
+    console.log('modify a book:', book)
+    this.props.modify(book, this.bookId)
   }
 
   bookExists (rule, value, callback) {
@@ -59,7 +60,7 @@ export class BookEdit extends React.Component {
           hasFeedback
         >
           {getFieldDecorator('name', {
-            initialValue: '',
+            initialValue: this.props.bookMessage.name,
             validate: [{
               rules: [
                 { validator: this.bookExists }
@@ -79,7 +80,7 @@ export class BookEdit extends React.Component {
           {...formItemLayout}
           label='数量'
         >
-          {getFieldDecorator('quantity', { initialValue: 1 })(
+          {getFieldDecorator('quantity', { initialValue: this.props.bookMessage.quantity })(
             <InputNumber placeholder='' />
           )}
         </FormItem>
@@ -87,7 +88,7 @@ export class BookEdit extends React.Component {
           {...formItemLayout}
           label='作者'
         >
-          {getFieldDecorator('author', { initialValue: '' })(
+          {getFieldDecorator('author', { initialValue: this.props.bookMessage.author })(
             <Input type='text' placeholder='' />
           )}
         </FormItem>
@@ -95,7 +96,7 @@ export class BookEdit extends React.Component {
           {...formItemLayout}
           label='译者'
         >
-          {getFieldDecorator('translator', { initialValue: '' })(
+          {getFieldDecorator('translator', { initialValue: this.props.bookMessage.translator })(
             <Input type='text' placeholder='' />
           )}
         </FormItem>
@@ -103,7 +104,7 @@ export class BookEdit extends React.Component {
           {...formItemLayout}
           label='页数'
         >
-          {getFieldDecorator('pages', { initialValue: 0 })(
+          {getFieldDecorator('pages', { initialValue: this.props.bookMessage.pages })(
             <InputNumber placeholder='' />
           )}
         </FormItem>
@@ -111,7 +112,7 @@ export class BookEdit extends React.Component {
           {...formItemLayout}
           label='出版社'
         >
-          {getFieldDecorator('publisher', { initialValue: '' })(
+          {getFieldDecorator('publisher', { initialValue: this.props.bookMessage.publisher })(
             <Input type='text' placeholder='' />
           )}
         </FormItem>
@@ -119,7 +120,7 @@ export class BookEdit extends React.Component {
           {...formItemLayout}
           label='出版日期'
         >
-          {getFieldDecorator('publishedAt', { initialValue: moment(new Date(), format) })(
+          {getFieldDecorator('publishedAt', { initialValue: moment(this.props.bookMessage.publishedAt, format) })(
             <DatePicker />
           )}
         </FormItem>

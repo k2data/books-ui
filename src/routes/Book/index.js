@@ -10,9 +10,12 @@ export default (store) => ({
       /*  Webpack - use require callback to define
           dependencies for bundling   */
 
-      const Book = nextState.params.bookId !== 'creating'
-        ? require('./containers/BookShowContainer').default
-        : require('./containers/NewBookContainer').default
+      //   增加图书编辑路由
+      const Book = nextState.params.bookId === 'creating'
+        ? require('./containers/NewBookContainer').default
+        : nextState.params.bookId === 'editing'
+          ? require('./containers/EditBookContainer').default
+          : require('./containers/BookShowContainer').default
       const bookReducer = require('./modules/book').default
       const brReducer = require('./modules/borrowRecord').default
 
